@@ -2,10 +2,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #0F172A;
-  --color-gold: #B8860B;
-  --color-gold-light: #DAA520;
-  --color-cream: #FAF9F6; /* Washi/Japanese paper white */
+  --color-navy: #0A192F;
+  --color-gold: #C5A059;
+  --color-gold-light: #D4AF37;
+  --color-cream: #F8F5F0;
   
   --font-serif: "Noto Serif JP", "Playfair Display", serif;
   --font-sans: "Noto Sans JP", "Inter", sans-serif;
@@ -22,8 +22,8 @@
 }
 
 .glass-nav {
-  background: rgba(10, 25, 47, 0.8);
-  backdrop-filter: blur(12px);
+  background: rgba(10, 25, 47, 0.85);
+  backdrop-filter: blur(16px);
 }
 
 .gold-gradient {
