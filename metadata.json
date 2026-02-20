@@ -1,0 +1,7 @@
+{
+  "name": "匠の彩 - 外壁塗装プロフェッショナル",
+  "description": "信頼と実績の一級塗装技能士による、上質な外壁塗装サービス。無料見積り受付中。",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
