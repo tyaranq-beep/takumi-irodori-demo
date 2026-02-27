@@ -3,5 +3,25 @@
   "description": "信頼と実績の一級塗装技能士による、上質な外壁塗装サービス。無料見積り受付中。",
   "requestFramePermissions": [
     "geolocation"
-  ]
+  ],
+  "_meta": {
+    "role": "BASE_DEMO",
+    "industry": "建築・エクステリア・工務店",
+    "industry_en": "construction-exterior",
+    "version": "1.0.0",
+    "created": "2026-02-28",
+    "source_repo": "https://github.com/tyaranq-beep/-WEB-.git",
+    "local_path": "d:/Antigravity_Data/.gemini/antigravity/scratch/web-project-fresh",
+    "status": "active",
+    "ux_patterns_applied": [
+      "mobile-sticky-cta",
+      "line-consultation",
+      "process-flow-section",
+      "benefit-first-hero",
+      "before-after-testimonials",
+      "low-pressure-contact-form"
+    ],
+    "research_basis": "Google Maps top-10 construction/exterior companies (4.5+ rating, 30+ reviews)",
+    "notes": "上位10社のGoogleレビューデータ調査に基づき、業種の勝ちパターンを網羅したベースデモサイト。クライアント向けにカスタマイズするための出発点として使用する。"
+  }
 }
