@@ -29,13 +29,13 @@ const BeforeAfter = ({ beforeUrl, afterUrl, loading }: BeforeAfterProps) => {
                             <div className="w-full aspect-[4/3] bg-earth-100 animate-pulse" />
                         ) : (
                             <img
-                                src={beforeUrl || "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80"}
+                                src={beforeUrl || "/images/before-renovation.png"}
                                 alt="施工前"
                                 className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
                             />
                         )}
                         <div className="p-6 bg-earth-100/50 backdrop-blur-md border-t border-white absolute bottom-0 w-full">
-                            <p className="text-earth-900 font-bold">全体的な色褪せと、クラック（ひび割れ）が目立つ状態</p>
+                            <p className="text-earth-900 font-bold">塗装の剥がれ、色あせ、ひび割れが目立つ外壁の状態</p>
                         </div>
                     </div>
 
@@ -53,13 +53,13 @@ const BeforeAfter = ({ beforeUrl, afterUrl, loading }: BeforeAfterProps) => {
                             <div className="w-full aspect-[4/3] bg-earth-100 animate-pulse" />
                         ) : (
                             <img
-                                src={afterUrl || "https://images.unsplash.com/photo-1541888086425-d81bb1902047?auto=format&fit=crop&q=80"}
+                                src={afterUrl || "/images/after-renovation.png"}
                                 alt="施工後"
                                 className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
                             />
                         )}
                         <div className="p-6 bg-white/90 backdrop-blur-md border-t border-forest-500/20 absolute bottom-0 w-full">
-                            <p className="text-forest-700 font-bold">新築時のような輝きを取り戻し、防水性も大幅にアップ</p>
+                            <p className="text-forest-700 font-bold">プロによる塗装と補修で、新築時の美しさと防水性を完全に復元</p>
                         </div>
                     </div>
                 </div>
