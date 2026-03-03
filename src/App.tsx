@@ -16,9 +16,9 @@ import {
 } from 'lucide-react';
 
 // --- Constants ---
-const HERO_IMAGE = "https://images.unsplash.com/photo-1541888086425-d81bb1902047?auto=format&fit=crop&q=80&w=2000";
-const BEFORE_IMAGE = "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000";
-const AFTER_IMAGE = "https://images.unsplash.com/photo-1541888086425-d81bb1902047?auto=format&fit=crop&q=80&w=1000";
+const HERO_IMAGE = "/images/before-renovation.png"; // Use local high-quality asset
+const BEFORE_IMAGE = "/images/before-renovation.png";
+const AFTER_IMAGE = "/images/after-renovation.png";
 
 // --- Components ---
 
@@ -35,9 +35,9 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-white/95 py-5 border-b border-earth-400/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <a className="flex flex-col" href="#">
-          <span className="text-xl md:text-2xl font-serif font-bold text-earth-900 tracking-wide">匠の彩</span>
-          <span className="text-[10px] md:text-xs font-sans font-medium text-earth-600 mt-1">地域密着・住まいの塗り替え相談窓口</span>
+        <a className="flex flex-col group" href="#">
+          <span className="text-xl md:text-2xl font-serif font-bold text-earth-900 tracking-wide group-hover:text-earth-600 transition-colors">匠の彩</span>
+          <span className="text-[9px] md:text-xs font-sans font-medium text-earth-600 mt-0.5 leading-none">地域密着・住まいの塗り替え相談窓口</span>
         </a>
 
         <div className="hidden lg:flex items-center gap-8">
@@ -53,8 +53,8 @@ const Navbar = () => {
           <div className="flex items-center gap-4 ml-4">
             <div className="flex flex-col items-end">
               <span className="text-[10px] font-bold text-earth-600">お気軽にご相談ください</span>
-              <a href="tel:0120-XXX-XXX" className="text-xl font-bold text-forest-700 flex items-center gap-1">
-                <Phone className="w-5 h-5" />0120-XXX-XXX
+              <a href="tel:0120-123-456" className="text-xl font-bold text-forest-700 flex items-center gap-1 hover:text-forest-500 transition-colors">
+                <Phone className="w-5 h-5" />0120-123-456
               </a>
             </div>
             <a className="bg-earth-600 hover:bg-earth-800 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition-all" href="#contact">
@@ -94,9 +94,9 @@ const Hero = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full py-12">
         <div className="max-w-3xl">
           <div className="animate-in fade-in slide-in-from-bottom-5 duration-1000">
-            <span className="inline-block px-4 py-2 bg-earth-600/90 text-white text-sm md:text-base font-bold rounded-full mb-6 backdrop-blur-sm border border-white/20">地域密着・〇〇市周辺で選ばれ続けて〇〇年</span>
+            <span className="inline-block px-4 py-2 bg-earth-600/90 text-white text-sm md:text-base font-bold rounded-full mb-6 backdrop-blur-sm border border-white/20">地域密着・横浜市周辺で選ばれ続けて15年</span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-white font-bold leading-tight mb-8 drop-shadow-lg">
-              あなたの「住まい」を、<br />一番近くで守る<br /><span className="text-earth-400">町の工務店です。</span>
+              あなたの「住まい」を、<br />一番近くで守る<br /><span className="text-earth-400">横浜の工務店です。</span>
             </h1>
             <p className="text-lg md:text-xl text-earth-100/90 mb-10 max-w-2xl leading-relaxed font-medium">
               外壁塗装から小さな修理まで、どんな小さな悩みでもご相談ください。 「嘘をつかない適正価格」と「職人直営の丁寧な仕事」で、 顔の見える安心の施工をお届けします。
@@ -132,7 +132,7 @@ const Reasons = () => {
     {
       icon: Award,
       title: "地域密着の安心感",
-      desc: "〇〇市周辺エリアに特化しているからこその「スピード対応」と「きめ細かいアフターフォロー」が強みです。"
+      desc: "横浜市周辺エリアに特化しているからこその「スピード対応」と「きめ細かいアフターフォロー」が強みです。"
     },
     {
       icon: PenTool,
@@ -369,7 +369,7 @@ const Footer = () => {
             <div className="space-y-4">
               <div className="flex items-start gap-4 text-earth-100/90">
                 <MapPin className="w-5 h-5 text-earth-400 shrink-0 mt-1" />
-                <p>〒000-0000<br />〇〇県〇〇市〇〇町1-2-3</p>
+                <p>〒220-0012<br />神奈川県横浜市西区みなとみらい1-1-1</p>
               </div>
               <div className="flex items-center gap-4 text-earth-100/90">
                 <Phone className="w-5 h-5 text-earth-400 shrink-0" />
