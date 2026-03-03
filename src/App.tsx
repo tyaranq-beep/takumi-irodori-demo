@@ -1,478 +1,237 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { GoogleGenAI } from "@google/genai";
 import {
   Menu,
   X,
-  Star,
-  CheckCircle2,
-  ShieldCheck,
-  Award,
   Phone,
   Mail,
   MapPin,
-  ArrowRight,
-  ChevronRight,
-  Quote,
-  Building2,
-  Loader2,
+  Send,
+  Award,
+  PenTool,
+  ShieldCheck,
   MessageCircle,
-  ClipboardList,
-  CalendarCheck,
-  Hammer,
-  ThumbsUp
+  CircleCheck,
+  Star,
+  Quote
 } from 'lucide-react';
 
-// --- Gemini Image Generation ---
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
-
-const useGeneratedImages = () => {
-  const [images, setImages] = useState<{ hero: string; before: string; after: string } | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const generateAll = async () => {
-      try {
-        setLoading(true);
-
-        const heroResponse = await ai.models.generateContent({
-          model: 'gemini-2.5-flash-image',
-          contents: {
-            parts: [{ text: 'A stunning, high-end modern Japanese residential house with a fresh navy and white exterior paint job. Sunny day, professional architectural photography, luxury feel.' }],
-          },
-          config: { imageConfig: { aspectRatio: "16:9" } }
-        });
-
-        const beforeResponse = await ai.models.generateContent({
-          model: 'gemini-2.5-flash-image',
-          contents: {
-            parts: [{ text: 'A weathered and faded exterior wall of a typical Japanese house, showing signs of dirt and peeling paint, realistic, professional photography.' }],
-          },
-          config: { imageConfig: { aspectRatio: "4:3" } }
-        });
-
-        const afterResponse = await ai.models.generateContent({
-          model: 'gemini-2.5-flash-image',
-          contents: {
-            parts: [{ text: 'A perfectly restored and freshly painted version of the previous Japanese house wall, vibrant navy and white colors, looking brand new, professional photography.' }],
-          },
-          config: { imageConfig: { aspectRatio: "4:3" } }
-        });
-
-        const extractImage = (response: any) => {
-          for (const part of response.candidates[0].content.parts) {
-            if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
-          }
-          return null;
-        };
-
-        setImages({
-          hero: extractImage(heroResponse) || '',
-          before: extractImage(beforeResponse) || '',
-          after: extractImage(afterResponse) || '',
-        });
-      } catch (err) {
-        console.error("Image generation failed:", err);
-        setError("AIプレビュー画像を読み込み中...");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    generateAll();
-  }, []);
-
-  return { images, loading, error };
-};
-
-// --- Mobile Sticky CTA Footer ---
-// ★ New: top-10 winning pattern — always-visible mobile CTA bar
-const MobileStickyFooter = () => {
-  return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-navy/95 backdrop-blur-lg border-t border-white/10 shadow-2xl">
-      <div className="grid grid-cols-3 divide-x divide-white/10">
-        <a href="tel:0120XXXXXX" className="flex flex-col items-center justify-center py-4 gap-1 text-white hover:bg-white/5 transition-colors">
-          <Phone className="w-5 h-5 text-gold" />
-          <span className="text-[10px] font-bold tracking-widest">電話する</span>
-        </a>
-        <a
-          href="https://lin.ee/XXXXXX"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center py-4 gap-1 bg-[#06C755]/10 text-white hover:bg-[#06C755]/20 transition-colors"
-        >
-          <MessageCircle className="w-5 h-5 text-[#06C755]" />
-          <span className="text-[10px] font-bold tracking-widest text-[#06C755]">LINE相談</span>
-        </a>
-        <a href="#contact" className="flex flex-col items-center justify-center py-4 gap-1 gold-gradient text-white hover:opacity-90 transition-opacity">
-          <ClipboardList className="w-5 h-5" />
-          <span className="text-[10px] font-bold tracking-widest">無料見積</span>
-        </a>
-      </div>
-    </div>
-  );
-};
+// --- Constants ---
+const HERO_IMAGE = "https://images.unsplash.com/photo-1541888086425-d81bb1902047?auto=format&fit=crop&q=80&w=2000";
+const BEFORE_IMAGE = "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000";
+const AFTER_IMAGE = "https://images.unsplash.com/photo-1541888086425-d81bb1902047?auto=format&fit=crop&q=80&w=1000";
 
 // --- Components ---
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: '施工事例', href: '#施工事例' },
-    { label: '品質へのこだわり', href: '#品質' },
-    { label: 'お客様の声', href: '#お客様の声' },
-    { label: '会社概要', href: '#会社概要' },
+    { label: 'ホーム', href: '#' },
+    { label: '事業内容', href: '#services' },
+    { label: '施工事例・お客様の声', href: '#施工事例' },
+    { label: '会社案内', href: '#about' },
   ];
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'glass-nav py-3' : 'bg-transparent py-6'}`}>
+    <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-white/95 py-5 border-b border-earth-400/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 gold-gradient rounded-sm flex items-center justify-center shadow-lg">
-            <span className="text-white font-serif text-xl font-bold">匠</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-2xl font-serif font-bold tracking-wider text-white">
-              匠の彩
-            </span>
-            <span className="text-[10px] font-sans font-light tracking-[0.3em] text-white/70 uppercase">
-              Takumi no Irodori
-            </span>
-          </div>
-        </div>
+        <a className="flex flex-col" href="#">
+          <span className="text-xl md:text-2xl font-serif font-bold text-earth-900 tracking-wide">匠の彩</span>
+          <span className="text-[10px] md:text-xs font-sans font-medium text-earth-600 mt-1">地域密着・住まいの塗り替え相談窓口</span>
+        </a>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-10">
-          {navLinks.map((item) => (
-            <a key={item.label} href={item.href} className="text-white/90 hover:text-gold transition-colors text-sm font-medium tracking-widest">
-              {item.label}
+        <div className="hidden lg:flex items-center gap-8">
+          {navLinks.map((link, i) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className={`text-sm font-medium transition-colors hover:text-earth-600 ${i === 0 ? 'text-earth-600 font-bold border-b-2 border-earth-600 pb-1' : 'text-earth-800'}`}
+            >
+              {link.label}
             </a>
           ))}
-          <a href="#contact" className="gold-gradient text-white px-8 py-3 rounded-sm text-xs font-bold tracking-[0.2em] hover:shadow-2xl hover:shadow-gold/20 transition-all uppercase">
-            無料見積り依頼
-          </a>
+          <div className="flex items-center gap-4 ml-4">
+            <div className="flex flex-col items-end">
+              <span className="text-[10px] font-bold text-earth-600">お気軽にご相談ください</span>
+              <a href="tel:0120-XXX-XXX" className="text-xl font-bold text-forest-700 flex items-center gap-1">
+                <Phone className="w-5 h-5" />0120-XXX-XXX
+              </a>
+            </div>
+            <a className="bg-earth-600 hover:bg-earth-800 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition-all" href="#contact">
+              無料お見積り
+            </a>
+          </div>
         </div>
 
-        {/* Mobile Toggle */}
-        <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          {isMobileMenuOpen ? <X /> : <Menu />}
+        <button className="lg:hidden text-earth-900 p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-navy p-8 flex flex-col gap-6 md:hidden border-t border-white/10"
-          >
-            {navLinks.map((item) => (
-              <a key={item.label} href={item.href} className="text-white text-lg font-serif tracking-widest" onClick={() => setIsMobileMenuOpen(false)}>
-                {item.label}
-              </a>
-            ))}
-            <a href="#contact" className="gold-gradient text-white py-5 rounded-sm font-bold tracking-widest text-center block" onClick={() => setIsMobileMenuOpen(false)}>
-              無料見積り依頼
+      {isMobileMenuOpen && (
+        <div className="lg:hidden bg-white border-b border-earth-200 p-6 flex flex-col gap-4 shadow-xl">
+          {navLinks.map((link) => (
+            <a key={link.label} href={link.href} className="text-earth-800 font-bold py-2" onClick={() => setIsMobileMenuOpen(false)}>
+              {link.label}
             </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          ))}
+          <a className="bg-earth-600 text-white py-4 rounded-xl text-center font-bold mt-2" href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+            無料お見積り
+          </a>
+        </div>
+      )}
     </nav>
   );
 };
 
-const Hero = ({ imageUrl, loading }: { imageUrl: string; loading: boolean }) => {
+const Hero = () => {
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-      {/* Background Image */}
-      <div className="absolute inset-0 bg-navy">
-        {loading ? (
-          <div className="w-full h-full flex items-center justify-center">
-            <Loader2 className="w-12 h-12 text-gold animate-spin" />
-          </div>
-        ) : (
-          <img
-            src={imageUrl}
-            alt="施工後の美しい外壁塗装"
-            className="w-full h-full object-cover scale-105"
-            referrerPolicy="no-referrer"
-          />
-        )}
-        <div className="absolute inset-0 bg-navy/65 backdrop-blur-[2px]"></div>
+    <section className="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img alt="丁寧な施工風景" className="w-full h-full object-cover scale-105" src={HERO_IMAGE} />
+        <div className="absolute inset-0 bg-earth-900/60 mix-blend-multiply"></div>
       </div>
-
-      <div className="relative z-10 text-center px-6 max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          {/* ★ Updated: Specific trust signal upfront */}
-          <span className="inline-block text-gold font-bold tracking-[0.4em] text-xs md:text-sm mb-8 uppercase">
-            一級塗装技能士 ｜ 施工実績 500棟以上 ｜ 最長15年保証
-          </span>
-          {/* ★ Updated: Emotional, benefit-first headline */}
-          <h1 className="text-5xl md:text-8xl text-white font-serif leading-[1.1] mb-8">
-            その家、まだ<br />
-            <span className="text-gold-light">諦めないでください。</span>
-          </h1>
-          {/* ★ Updated: Address the user's fear directly */}
-          <p className="text-white/70 text-lg md:text-xl font-light mb-4 max-w-3xl mx-auto leading-relaxed tracking-wide">
-            外壁のひび割れ・色あせ・塗膜の浮き——放置するほど、修繕費用は膨れ上がります。
-          </p>
-          <p className="text-white/60 text-base md:text-lg font-light mb-14 max-w-2xl mx-auto leading-relaxed tracking-wide">
-            匠の彩が、プロの目で正直に診断します。費用0円、押し売り一切なし。
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-            {/* ★ Updated: Friction-reducing primary CTA */}
-            <a href="#contact" className="gold-gradient text-white px-12 py-6 rounded-sm text-base md:text-lg font-bold tracking-[0.15em] hover:scale-105 transition-transform shadow-2xl shadow-gold/40">
-              まず無料で診断してもらう →
-            </a>
-            {/* ★ New: LINE as a low-friction alternative */}
-            <a
-              href="https://lin.ee/XXXXXX"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-[#06C755]/20 backdrop-blur-xl border border-[#06C755]/40 text-white px-10 py-6 rounded-sm text-base md:text-lg font-bold tracking-[0.1em] hover:bg-[#06C755]/30 transition-all"
-            >
-              <MessageCircle className="w-6 h-6 text-[#06C755]" />
-              LINEで気軽に相談
-            </a>
-          </div>
-          {/* ★ New: Micro-copy to eliminate final hesitation */}
-          <p className="text-white/40 text-xs mt-6 tracking-widest">※ しつこい営業電話は一切しません。まず現状を知るだけでも大丈夫です。</p>
-        </motion.div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 12, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/40 flex flex-col items-center gap-3"
-      >
-        <span className="text-[10px] tracking-[0.4em] uppercase font-light">Scroll</span>
-        <div className="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent"></div>
-      </motion.div>
-    </section>
-  );
-};
-
-const TrustBadges = () => {
-  return (
-    <section className="py-20 bg-navy border-y border-white/5">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-          {[
-            { icon: <Award className="w-10 h-10 text-gold" />, title: "一級塗装技能士", desc: "国家資格を持つ職人が直接施工。下請け丸投げは一切なし" },
-            { icon: <ShieldCheck className="w-10 h-10 text-gold" />, title: "最長15年保証", desc: "施工後も安心。万が一の不具合は即対応します" },
-            { icon: <Building2 className="w-10 h-10 text-gold" />, title: "自社完全施工", desc: "中間マージンをゼロにすることで、同じ品質をより安く提供" },
-            { icon: <Star className="w-10 h-10 text-gold" />, title: "Googleレビュー ★4.8", desc: "地域のお客様から積み重ねてきた、正直な評価がここにあります" },
-          ].map((badge, idx) => (
-            <div key={idx} className="flex flex-col items-center text-center space-y-5 group">
-              <div className="p-5 bg-white/5 rounded-full border border-white/10 group-hover:border-gold/50 transition-colors">
-                {badge.icon}
-              </div>
-              <div className="space-y-2">
-                <h4 className="text-white text-lg font-serif tracking-widest">{badge.title}</h4>
-                <p className="text-xs text-white/50 tracking-wide leading-relaxed">{badge.desc}</p>
-              </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full py-12">
+        <div className="max-w-3xl">
+          <div className="animate-in fade-in slide-in-from-bottom-5 duration-1000">
+            <span className="inline-block px-4 py-2 bg-earth-600/90 text-white text-sm md:text-base font-bold rounded-full mb-6 backdrop-blur-sm border border-white/20">地域密着・〇〇市周辺で選ばれ続けて〇〇年</span>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-white font-bold leading-tight mb-8 drop-shadow-lg">
+              あなたの「住まい」を、<br />一番近くで守る<br /><span className="text-earth-400">町の工務店です。</span>
+            </h1>
+            <p className="text-lg md:text-xl text-earth-100/90 mb-10 max-w-2xl leading-relaxed font-medium">
+              外壁塗装から小さな修理まで、どんな小さな悩みでもご相談ください。 「嘘をつかない適正価格」と「職人直営の丁寧な仕事」で、 顔の見える安心の施工をお届けします。
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <a className="bg-forest-600 hover:bg-forest-700 text-white px-8 py-4 rounded-full text-lg font-bold text-center transition-all shadow-lg hover:shadow-xl hover:-translate-y-1" href="#contact">まずは無料でお見積り</a>
+              <a href="tel:0120-XXX-XXX" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 transition-all">
+                <Phone className="w-5 h-5" />0120-XXX-XXX に電話する
+              </a>
             </div>
-          ))}
+            <div className="flex flex-wrap gap-4 text-sm md:text-base text-white/90 font-medium">
+              {[
+                "しつこい営業一切なし",
+                "最短即日お伺い",
+                "経験豊富な職人が直接対応"
+              ].map((text, i) => (
+                <div key={i} className="flex items-center gap-2 bg-earth-900/40 backdrop-blur-sm px-4 py-2 rounded-full border border-earth-100/10">
+                  <CircleCheck className="w-4 h-4 text-earth-400" />
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
+      <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-earth-100 to-transparent z-10"></div>
     </section>
   );
 };
 
-// ★ New Section: はじめての方へ (For First-Timers) — top-10 winning pattern
-const ProcessFlow = () => {
-  const steps = [
+const Reasons = () => {
+  const items = [
     {
-      icon: <MessageCircle className="w-10 h-10 text-gold" />,
-      step: "STEP 01",
-      title: "無料でご相談・現地診断",
-      desc: "電話・LINE・フォームどこからでもOK。しつこい営業は一切しません。まず「現状を知る」だけで大丈夫です。"
+      icon: Award,
+      title: "地域密着の安心感",
+      desc: "〇〇市周辺エリアに特化しているからこその「スピード対応」と「きめ細かいアフターフォロー」が強みです。"
     },
     {
-      icon: <ClipboardList className="w-10 h-10 text-gold" />,
-      step: "STEP 02",
-      title: "わかりやすいお見積り",
-      desc: "すべての費用を明細書でご説明。「なぜこの金額なのか」を職人自身が丁寧にお伝えします。不明点はその場でなんでもどうぞ。"
+      icon: PenTool,
+      title: "職人直営の適正価格",
+      desc: "営業マンを挟まないから中間マージンなし。高品質な施工を「適正な価格」で直接お届けします。"
     },
     {
-      icon: <Hammer className="w-10 h-10 text-gold" />,
-      step: "STEP 03",
-      title: "着工・毎日の現場報告",
-      desc: "ご契約後は着工日程のご提案。施工中は毎日写真付きで進捗をご報告。職人の顔が見える安心の施工です。"
+      icon: ShieldCheck,
+      title: "有資格者による確かな技術",
+      desc: "一級塗装技能士をはじめとする国家資格を持ったプロが、手抜きなしの長持ちする施工をお約束します。"
     },
     {
-      icon: <ThumbsUp className="w-10 h-10 text-gold" />,
-      step: "STEP 04",
-      title: "仕上げ確認・長期アフター",
-      desc: "完工後はお客様立ち会いのもと最終確認。ご満足いただけなければ手直しします。最長15年の品質保証で永くお付き合いします。"
+      icon: MessageCircle,
+      title: "強引な営業はしません",
+      desc: "お客様のペースを第一に考えます。不要な工事の押し売りや、しつこい電話営業は一切いたしません。"
     }
   ];
 
   return (
-    <section id="品質" className="py-32 bg-navy relative overflow-hidden">
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold rounded-full blur-[150px]"></div>
-      </div>
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
-          <span className="text-gold font-bold tracking-[0.3em] text-xs mb-4 block uppercase">For First-Timers</span>
-          <h2 className="text-4xl md:text-6xl font-serif text-white mb-6">はじめての方へ。<br /><span className="text-gold-light">流れと約束。</span></h2>
-          <p className="text-white/50 max-w-xl mx-auto tracking-wide leading-relaxed text-sm">
-            初めての外壁塗装で何から始めればいいか、わからないのは当然です。<br />
-            匠の彩は、相談の最初から完工後まで、ずっと正直にお客様の味方でいます。
-          </p>
+    <section className="py-20 bg-earth-100 relative z-20">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="text-earth-600 font-bold tracking-widest text-sm mb-2 block uppercase">Reasons to Choose Us</span>
+          <h2 className="text-3xl md:text-4xl font-serif text-earth-900 font-bold">私たちが「地元の皆様」に選ばれる4つの理由</h2>
+          <div className="w-20 h-1 bg-forest-500 mx-auto mt-6 rounded-full"></div>
         </div>
-        <div className="grid md:grid-cols-4 gap-0 relative">
-          {/* Connector line */}
-          <div className="hidden md:block absolute top-14 left-[12.5%] right-[12.5%] h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent"></div>
-          {steps.map((step, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="flex flex-col items-center text-center px-6 py-8 group"
-            >
-              <div className="relative mb-8">
-                <div className="w-28 h-28 rounded-full bg-white/5 border border-white/10 group-hover:border-gold/40 transition-colors flex items-center justify-center">
-                  {step.icon}
-                </div>
-                <span className="absolute -top-2 -right-2 bg-gold text-white text-[10px] font-bold px-2 py-1 rounded-sm tracking-widest">
-                  {i + 1}
-                </span>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {items.map((item, i) => (
+            <div key={i} className="flex flex-col items-center text-center group bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-all">
+              <div className="w-20 h-20 rounded-full bg-earth-400/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <item.icon className="w-8 h-8 text-earth-600" />
               </div>
-              <span className="text-gold text-[10px] tracking-[0.3em] font-bold mb-3">{step.step}</span>
-              <h3 className="text-white font-serif text-xl mb-4 leading-tight">{step.title}</h3>
-              <p className="text-white/50 text-xs leading-relaxed tracking-wide">{step.desc}</p>
-            </motion.div>
+              <h3 className="text-xl font-bold text-earth-900 mb-4">{item.title}</h3>
+              <p className="text-earth-800 leading-relaxed text-sm">{item.desc}</p>
+            </div>
           ))}
         </div>
-        <div className="text-center mt-16">
-          <a href="#contact" className="inline-flex items-center gap-3 gold-gradient text-white px-12 py-5 rounded-sm font-bold tracking-[0.2em] hover:scale-105 transition-transform shadow-2xl shadow-gold/30">
-            まず無料相談してみる <ArrowRight className="w-5 h-5" />
-          </a>
-        </div>
       </div>
     </section>
   );
 };
 
-const BeforeAfter = ({ beforeUrl, afterUrl, loading }: { beforeUrl: string; afterUrl: string; loading: boolean }) => {
+const ComparisonSlider = () => {
+  const [sliderPos, setSliderPos] = useState(50);
+
+  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const x = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const position = ((x - rect.left) / rect.width) * 100;
+    setSliderPos(Math.min(Math.max(position, 0), 100));
+  };
+
   return (
-    <section id="施工事例" className="py-32 bg-cream overflow-hidden">
+    <section id="施工事例" className="py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-          <div className="max-w-2xl">
-            <span className="text-gold font-bold tracking-[0.3em] text-xs mb-4 block uppercase">Case Studies</span>
-            <h2 className="text-4xl md:text-6xl font-serif text-navy leading-tight">ビフォー・アフター。<br />結果がすべてを語る。</h2>
-          </div>
-          <p className="text-navy/60 max-w-md text-sm leading-relaxed tracking-wide">
-            写真加工は一切なし。ご覧いただいているのは実際の施工前・施工後の現場写真です。この変化を、あなたのお家でも。
-          </p>
+        <div className="text-center mb-16">
+          <span className="text-earth-600 font-bold tracking-widest text-sm mb-2 block uppercase">Works</span>
+          <h2 className="text-3xl md:text-4xl font-serif text-earth-900 font-bold">地域での施工事例（ビフォーアフター比較）</h2>
+          <div className="w-20 h-1 bg-forest-500 mx-auto mt-6 rounded-full"></div>
+          <p className="mt-6 text-earth-800 max-w-2xl mx-auto">スライダーを左右に動かして、施工前と施工後の変化をご確認いただけます。</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
-          <div className="space-y-8">
-            <div className="relative group overflow-hidden rounded-sm shadow-2xl bg-navy/10 min-h-[300px] flex items-center justify-center">
-              {loading ? <Loader2 className="animate-spin text-gold" /> : (
-                <>
-                  <div className="absolute top-6 left-6 z-10 bg-navy/90 text-white px-6 py-2 text-[10px] font-bold tracking-[0.2em] rounded-sm">BEFORE（施工前）</div>
-                  <img
-                    src={beforeUrl}
-                    alt="施工前の外壁"
-                    className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
-                </>
-              )}
-            </div>
-            <div className="relative group overflow-hidden rounded-sm shadow-2xl border-[12px] border-white bg-navy/10 min-h-[300px] flex items-center justify-center">
-              {loading ? <Loader2 className="animate-spin text-gold" /> : (
-                <>
-                  <div className="absolute top-6 left-6 z-10 gold-gradient text-white px-6 py-2 text-[10px] font-bold tracking-[0.2em] rounded-sm">AFTER（施工後）</div>
-                  <img
-                    src={afterUrl}
-                    alt="施工後の美しい外壁"
-                    className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                </>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col justify-center space-y-10">
-            {[
-              { step: "工程 01", title: "外壁の徹底洗浄・補修", desc: "高圧洗浄で長年の汚れを落とし、ひび割れ（クラック）を一つずつ丁寧に埋めていきます。この下地処理が塗装の寿命を左右します。ここを手抜きする業者が多い中、匠の彩は絶対に妥協しません。" },
-              { step: "工程 02", title: "三度塗りの完全履行", desc: "下塗り・中塗り・上塗りの3工程を厳守。メーカー規定の塗布量を守り、厚く強固な塗膜を形成します。手間を惜しまないことが、15年後の「差」を生みます。" },
-              { step: "工程 03", title: "最高級シリコン・無機塗料", desc: "耐候性に優れた最新の塗料を使用。15年、20年と続く美しさと保護性能をお約束します。使用する塗料のカタログは、いつでもご説明できます。" },
-            ].map((item, i) => (
-              <div key={i} className="bg-white p-10 shadow-sm border-l-4 border-gold">
-                <span className="text-gold text-[10px] font-bold tracking-[0.3em] mb-2 block">{item.step}</span>
-                <h3 className="text-2xl font-serif mb-4 text-navy">{item.title}</h3>
-                <p className="text-navy/70 leading-relaxed text-sm tracking-wide">{item.desc}</p>
-              </div>
-            ))}
-            <div className="pt-6">
-              <a href="#contact" className="flex items-center gap-4 text-navy font-bold tracking-[0.2em] hover:gap-6 transition-all group">
-                施工事例をもっと見る <ArrowRight className="w-5 h-5 text-gold group-hover:translate-x-2 transition-transform" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+        <div className="max-w-4xl mx-auto">
+          <div
+            className="relative w-full aspect-video md:aspect-[16/9] overflow-hidden border-4 border-[#2C1E16] shadow-[12px_12px_0px_rgba(44,30,22,0.1)] cursor-col-resize select-none touch-pan-y"
+            onMouseMove={handleMove}
+            onTouchMove={handleMove}
+          >
+            <img alt="施工後の様子" className="absolute inset-0 w-full h-full object-cover pointer-events-none" src={AFTER_IMAGE} />
+            <div className="absolute top-4 right-4 bg-[#2C1E16] text-white px-3 py-1 text-sm font-bold z-10 shadow-md">施工後</div>
 
-// ★ New Section: LINE CTA Banner — top-10 winning pattern
-const LineCTABanner = () => {
-  return (
-    <section className="py-20 bg-cream border-y border-navy/5">
-      <div className="max-w-4xl mx-auto px-6 text-center">
-        <div className="bg-white rounded-sm shadow-lg p-12 md:p-16 border border-navy/5">
-          <span className="inline-block bg-[#06C755]/10 text-[#06C755] text-xs font-bold tracking-[0.3em] px-4 py-2 rounded-full mb-6">LINE で気軽に相談</span>
-          <h2 className="text-3xl md:text-5xl font-serif text-navy mb-6">「まだ相談するほどじゃない...」<br />その段階でもいいんです。</h2>
-          <p className="text-navy/60 text-sm leading-relaxed mb-10 max-w-2xl mx-auto tracking-wide">
-            写真を送るだけで、職人が無料で状態を確認します。「塗り替え時期かどうか知りたい」「費用の相場を聞きたい」——どんな小さな疑問でも歓迎です。
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-            <a
-              href="https://lin.ee/XXXXXX"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-[#06C755] text-white px-12 py-5 rounded-sm font-bold text-lg tracking-[0.1em] hover:bg-[#05A847] transition-colors shadow-xl shadow-[#06C755]/20"
+            <div
+              className="absolute inset-0 h-full w-full pointer-events-none"
+              style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
             >
-              <MessageCircle className="w-6 h-6" />
-              LINEで写真を送って相談する
-            </a>
-            <a href="#contact" className="text-navy/60 text-sm underline underline-offset-4 tracking-widest hover:text-navy transition-colors">
-              フォームから相談する
-            </a>
+              <img alt="施工前の様子" className="absolute inset-0 w-full h-full object-cover pointer-events-none" src={BEFORE_IMAGE} />
+              <div className="absolute top-4 left-4 bg-[#B87333] text-white px-3 py-1 text-sm font-bold z-10 shadow-md">施工前</div>
+            </div>
+
+            <div className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] z-20" style={{ left: `${sliderPos}%` }}>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white border-4 border-[#2C1E16] rounded-full flex items-center justify-center shadow-xl">
+                <div className="flex gap-1">
+                  <div className="w-1 h-5 bg-[#2C1E16] rounded-full"></div>
+                  <div className="w-1 h-5 bg-[#2C1E16] rounded-full"></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-navy/30 text-[10px] mt-8 tracking-widest">※ しつこい勧誘は一切しません。相談は何回でも無料です。</p>
+
+          <div className="mt-8 grid md:grid-cols-2 gap-6">
+            <div className="p-6 bg-earth-100/50 rounded-2xl border border-earth-200">
+              <span className="text-xs font-bold text-earth-600 mb-1 block uppercase">Before</span>
+              <p className="text-earth-900 font-bold">全体的な色褪せと、クラック（ひび割れ）が目立つ状態</p>
+            </div>
+            <div className="p-6 bg-forest-50/50 rounded-2xl border border-forest-100">
+              <span className="text-xs font-bold text-forest-600 mb-1 block uppercase">After</span>
+              <p className="text-forest-700 font-bold">新築時のような輝きを取り戻し、防水性も大幅にアップ</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -480,58 +239,44 @@ const LineCTABanner = () => {
 };
 
 const Testimonials = () => {
-  // ★ Updated: Reviews now include before-pain + after-joy pattern from top sites
   const reviews = [
     {
-      name: "佐藤 健一 様",
-      location: "東京都世田谷区",
-      before: "ひび割れを何年も放置していて不安でした。",
-      text: "初めての塗装で不安でしたが、担当の方が現場写真を毎日送ってくださり安心できました。仕上がりは新築以上かもしれません。ご近所の方にも聞かれるほどです。",
-      rating: 5
+      name: "T様 (〇〇市在住)",
+      tag: "外壁・屋根塗装",
+      text: "最初は相見積もりをいくつか取ったのですが、〇〇工務店さんの説明が一番わかりやすく、何より「近所での評判が良い」と知人に聞いて決めました。職人さんの挨拶も気持ちよく、仕事も丁寧で大満足です。"
     },
     {
-      name: "田中 恵子 様",
-      location: "神奈川県横浜市",
-      before: "他社の見積りが高すぎて途方に暮れていました。",
-      text: "費用の内訳をすべて説明してもらえて、納得のうえで契約できました。完成後、夫が「これは頼んで正解だった」と珍しく感動していました。",
-      rating: 5
+      name: "S様 (〇〇市在住)",
+      tag: "エクステリア改修",
+      text: "細かい要望にも嫌な顔ひとつせず対応してくださり感謝しています。仕上がりも想像以上で、毎日家に帰るのが楽しみになりました。次回のリフォームも絶対にこちらにお願いしようと家族で話しています。"
     },
     {
-      name: "伊藤 誠 様",
-      location: "埼玉県さいたま市",
-      before: "訪問業者に不安をあおられ、判断できずにいました。",
-      text: "押し売りが全くなく、「今すぐやらなくても大丈夫ですよ」と正直に言ってくれた誠実さが決め手でした。だからこそ、安心してお任せできました。",
-      rating: 5
-    },
+      name: "M様 (〇〇市在住)",
+      tag: "屋根修理",
+      text: "他社で「全部やり直す必要がある」と高額な見積もりを出されて不安になっていた所を相談しました。こちらの伊藤社長は「今は部分補修で十分です」と提案してくださり、本当に信頼できる会社だと感じました。"
+    }
   ];
 
   return (
-    <section id="お客様の声" className="py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-24">
-          <span className="text-gold font-bold tracking-[0.3em] text-xs mb-4 block uppercase">Real Voices</span>
-          <h2 className="text-4xl md:text-6xl font-serif text-navy mb-4">「頼んで良かった」<br />をデザインしています。</h2>
-          <p className="text-navy/50 text-sm tracking-wide max-w-lg mx-auto mt-4">以下はすべて実際のお客様からのGoogleレビューです。</p>
-          <div className="w-24 h-1 gold-gradient mx-auto mt-6"></div>
+    <section id="お客様の声" className="py-24 bg-earth-900 text-white relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgb(245, 239, 235) 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <span className="text-earth-400 font-bold tracking-widest text-sm mb-2 block uppercase">Testimonials</span>
+          <h2 className="text-3xl md:text-4xl font-serif text-white font-bold">地元の皆様からのうれしいお声</h2>
+          <div className="w-20 h-1 bg-earth-400 mx-auto mt-6 rounded-full"></div>
         </div>
-
-        <div className="grid md:grid-cols-3 gap-12">
-          {reviews.map((review, idx) => (
-            <div key={idx} className="bg-cream p-12 rounded-sm relative shadow-sm border border-navy/5 flex flex-col">
-              <Quote className="absolute top-8 right-10 text-gold/10 w-16 h-16" />
-              {/* ★ New: before-state hook */}
-              <div className="bg-navy/5 border-l-2 border-gold px-4 py-3 mb-8 rounded-sm">
-                <p className="text-navy/50 text-xs italic tracking-wide">ご相談前の状況：「{review.before}」</p>
+        <div className="grid md:grid-cols-3 gap-8">
+          {reviews.map((r, i) => (
+            <div key={i} className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 relative group hover:bg-white/10 transition-colors">
+              <Quote className="absolute top-6 right-6 w-12 h-12 text-earth-100/10 group-hover:text-earth-400/20 transition-colors" />
+              <div className="flex gap-1 justify-center mb-6">
+                {[...Array(5)].map((_, j) => <Star key={j} className="w-5 h-5 fill-earth-400 text-earth-400" />)}
               </div>
-              <div className="flex gap-1 mb-6">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-gold text-gold" />
-                ))}
-              </div>
-              <p className="text-navy/80 mb-10 leading-relaxed text-sm tracking-wide flex-1">"{review.text}"</p>
-              <div className="border-t border-navy/10 pt-8">
-                <p className="font-bold text-navy tracking-widest">{review.name}</p>
-                <p className="text-[10px] text-navy/40 tracking-[0.2em] uppercase mt-1">{review.location}</p>
+              <p className="text-earth-100 leading-loose mb-8 font-medium">"{r.text}"</p>
+              <div className="border-t border-earth-100/10 pt-6 text-center">
+                <p className="font-bold text-white tracking-widest">{r.name}</p>
+                <p className="text-sm text-earth-400 mt-1">{r.tag}</p>
               </div>
             </div>
           ))}
@@ -541,92 +286,70 @@ const Testimonials = () => {
   );
 };
 
-const ContactForm = () => {
+const Contact = () => {
   return (
-    <section id="contact" className="py-32 bg-navy relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2"></div>
+    <section id="contact" className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="text-earth-600 font-bold tracking-widest text-sm mb-2 block uppercase">Contact</span>
+          <h2 className="text-3xl md:text-4xl font-serif text-earth-900 font-bold">無料お見積り・ご相談</h2>
+          <div className="w-20 h-1 bg-forest-500 mx-auto mt-6 rounded-full"></div>
+          <p className="mt-6 text-earth-800 max-w-2xl mx-auto leading-relaxed">
+            強引な営業は一切いたしません。<br />
+            「まずは費用感だけ知りたい」「他社との相見積もりをしたい」という方も大歓迎です。
+          </p>
+        </div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <div className="bg-white rounded-sm overflow-hidden shadow-2xl flex flex-col lg:flex-row">
-          <div className="lg:w-2/5 gold-gradient p-16 text-white flex flex-col justify-between">
-            <div>
-              {/* ★ Updated: Copy now emphasizes no-risk first step */}
-              <h2 className="text-3xl md:text-4xl font-serif mb-6 leading-tight">まずは、正直な<br />「診断」から。</h2>
-              <p className="text-white/80 mb-10 leading-relaxed tracking-wide font-light text-sm">
-                無理な営業・即決を求める行為は一切しません。<br />
-                診断結果と費用の目安をお伝えし、あとはお客様がゆっくり判断していただければ十分です。
+        <div className="grid lg:grid-cols-5 gap-12 items-start max-w-5xl mx-auto">
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-earth-100 p-8 rounded-3xl">
+              <div className="w-12 h-12 bg-earth-600 rounded-full flex items-center justify-center mb-6">
+                <Phone className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-earth-900 mb-2">お電話でのご相談</h3>
+              <p className="text-earth-600 font-bold text-3xl mb-2">0120-XXX-XXX</p>
+              <p className="text-sm text-earth-800">
+                営業時間：8:00〜19:00<br />
+                定休日：日曜日（※事前予約で対応可）
               </p>
-              <div className="space-y-4 mb-12">
-                {[
-                  "現地診断・お見積りは完全無料",
-                  "断っても一切費用は発生しません",
-                  "お見積り有効期限は30日間",
-                ].map((point, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-white/70 shrink-0" />
-                    <span className="text-white/80 text-sm tracking-wide">{point}</span>
-                  </div>
-                ))}
-              </div>
             </div>
-            <div className="space-y-8">
-              <div className="flex items-center gap-6">
-                <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] opacity-60 tracking-[0.2em] uppercase mb-1">お電話</p>
-                  <p className="text-2xl font-bold tracking-widest">0120-XXX-XXX</p>
-                  <p className="text-[10px] opacity-50 mt-1 tracking-widest">平日 8:00〜19:00 / 土日祝も受付</p>
-                </div>
+
+            <div className="bg-white p-8 rounded-3xl border border-earth-200 shadow-sm">
+              <div className="w-12 h-12 bg-forest-600 rounded-full flex items-center justify-center mb-6">
+                <MapPin className="w-6 h-6 text-white" />
               </div>
-              <div className="flex items-center gap-6">
-                <div className="w-12 h-12 bg-[#06C755]/20 rounded-full flex items-center justify-center border border-[#06C755]/30">
-                  <MessageCircle className="w-6 h-6 text-[#06C755]" />
-                </div>
-                <div>
-                  <p className="text-[10px] opacity-60 tracking-[0.2em] uppercase mb-1">LINE</p>
-                  <p className="text-xl tracking-wide">友だち追加で相談</p>
-                </div>
-              </div>
+              <h3 className="text-xl font-bold text-earth-900 mb-2">対応エリア</h3>
+              <p className="text-sm text-earth-800 leading-relaxed font-medium">
+                〇〇市全域、〇〇市、〇〇町<br />
+                <span className="text-earth-600 block mt-2">※地域密着のため、片道1時間圏内を基本としておりますが、近隣の方もお気軽にご相談ください。</span>
+              </p>
             </div>
           </div>
 
-          <div className="lg:w-3/5 p-16">
-            <h3 className="text-2xl font-serif text-navy mb-2">無料診断・お見積りフォーム</h3>
-            <p className="text-navy/40 text-xs tracking-widest mb-10">送信後、24時間以内に担当者よりご連絡します</p>
-            <form className="space-y-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-navy/40 uppercase tracking-[0.3em]">お名前 <span className="text-gold">*</span></label>
-                  <input type="text" className="w-full bg-cream border-b border-navy/10 py-4 px-2 focus:border-gold outline-none transition-colors" placeholder="山田 太郎" />
+          <div className="lg:col-span-3 bg-white p-8 md:p-12 rounded-3xl border border-earth-400/20 shadow-xl">
+            <form className="space-y-6">
+              <div>
+                <label className="block text-sm font-bold text-earth-900 mb-2">お名前 <span className="text-red-500">*</span></label>
+                <input required className="w-full px-4 py-3 rounded-xl bg-earth-100/50 border border-earth-400/30 focus:outline-none focus:ring-2 focus:ring-earth-600 transition-all font-medium" placeholder="例：山田 太郎" type="text" />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-earth-900 mb-2">電話番号 <span className="text-red-500">*</span></label>
+                  <input required className="w-full px-4 py-3 rounded-xl bg-earth-100/50 border border-earth-400/30 focus:outline-none focus:ring-2 focus:ring-earth-600 transition-all font-medium" placeholder="例：090-1234-5678" type="tel" />
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-navy/40 uppercase tracking-[0.3em]">お電話番号 <span className="text-gold">*</span></label>
-                  <input type="tel" className="w-full bg-cream border-b border-navy/10 py-4 px-2 focus:border-gold outline-none transition-colors" placeholder="090-0000-0000" />
+                <div>
+                  <label className="block text-sm font-bold text-earth-900 mb-2">メールアドレス</label>
+                  <input className="w-full px-4 py-3 rounded-xl bg-earth-100/50 border border-earth-400/30 focus:outline-none focus:ring-2 focus:ring-earth-600 transition-all font-medium" placeholder="例：info@example.com" type="email" />
                 </div>
               </div>
-              <div className="space-y-3">
-                <label className="text-[10px] font-bold text-navy/40 uppercase tracking-[0.3em]">メールアドレス</label>
-                <input type="email" className="w-full bg-cream border-b border-navy/10 py-4 px-2 focus:border-gold outline-none transition-colors" placeholder="example@mail.com" />
+              <div>
+                <label className="block text-sm font-bold text-earth-900 mb-2">ご相談内容 <span className="text-red-500">*</span></label>
+                <textarea required rows={5} className="w-full px-4 py-3 rounded-xl bg-earth-100/50 border border-earth-400/30 focus:outline-none focus:ring-2 focus:ring-earth-600 transition-all font-medium resize-none" placeholder="「外壁のひび割れが気になる」「屋根の点検をお願いしたい」「見積もりが欲しい」など、どんなことでもお気軽にご記入ください。"></textarea>
               </div>
-              {/* ★ New: Area field — helps the company and reduces friction */}
-              <div className="space-y-3">
-                <label className="text-[10px] font-bold text-navy/40 uppercase tracking-[0.3em]">お住まいの地域</label>
-                <input type="text" className="w-full bg-cream border-b border-navy/10 py-4 px-2 focus:border-gold outline-none transition-colors" placeholder="例：東京都世田谷区" />
-              </div>
-              <div className="space-y-3">
-                <label className="text-[10px] font-bold text-navy/40 uppercase tracking-[0.3em]">ご相談内容・お気づきの点</label>
-                <textarea className="w-full bg-cream border-b border-navy/10 py-4 px-2 focus:border-gold outline-none h-32 transition-colors resize-none" placeholder="気になっている箇所やご希望をご自由にお書きください。「まだ何もわからない」でも大歓迎です。"></textarea>
-              </div>
-              <button type="submit" className="w-full gold-gradient text-white py-6 rounded-sm font-bold text-lg tracking-[0.2em] shadow-xl shadow-gold/20 hover:scale-[1.01] transition-transform">
-                無料で診断を申し込む
+              <button type="submit" className="w-full bg-forest-600 hover:bg-forest-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md mt-4">
+                <Send className="w-5 h-5" />この内容で送信する
               </button>
-              <p className="text-[10px] text-center text-navy/30 tracking-widest">
-                ※ しつこい営業は一切しません。費用も一切かかりません。
-              </p>
+              <p className="text-xs text-center text-earth-600 mt-4">ご入力いただいた個人情報は、お問い合わせの対応にのみ使用いたします。</p>
             </form>
           </div>
         </div>
@@ -637,67 +360,47 @@ const ContactForm = () => {
 
 const Footer = () => {
   return (
-    <footer id="会社概要" className="bg-navy pt-32 pb-32 md:pb-16 text-white/40">
+    <footer id="about" className="bg-earth-900 text-earth-100 pt-20 pb-24 lg:pb-12 border-t-4 border-earth-600">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-20 mb-32">
-          <div className="col-span-2">
-            <div className="flex items-center gap-3 mb-10">
-              <div className="w-10 h-10 gold-gradient rounded-sm flex items-center justify-center">
-                <span className="text-white font-serif text-lg font-bold">匠</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          <div className="lg:col-span-2">
+            <h3 className="text-2xl font-serif font-bold text-white mb-6 uppercase tracking-widest">〇〇工務店</h3>
+            <p className="text-earth-100/80 leading-relaxed mb-8 max-w-sm">地域密着で〇〇年の実績。外壁塗装、屋根工事、水回りリフォームなど、住まいのお困りごとは何でもご相談ください。親切丁寧な職人が対応いたします。</p>
+            <div className="space-y-4">
+              <div className="flex items-start gap-4 text-earth-100/90">
+                <MapPin className="w-5 h-5 text-earth-400 shrink-0 mt-1" />
+                <p>〒000-0000<br />〇〇県〇〇市〇〇町1-2-3</p>
               </div>
-              <span className="text-3xl font-serif font-bold text-white tracking-widest">
-                匠の彩
-              </span>
-            </div>
-            <p className="max-w-md mb-6 leading-relaxed tracking-wide text-sm">
-              「正直に、丁寧に、長くお付き合いできる塗装屋でありたい」——それが匠の彩の原点です。
-              一級塗装技能士の誇りをかけて、お客様の大切な住まいを守ります。
-            </p>
-            <p className="text-white/30 text-xs tracking-widest mb-12">創業以来、地域のお客様の信頼を一棟一棟積み重ねてきました。</p>
-            <div className="flex gap-6">
-              {['IG', 'FB', 'LINE'].map(social => (
-                <div key={social} className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-white transition-all cursor-pointer text-xs font-bold tracking-widest">
-                  {social}
-                </div>
-              ))}
+              <div className="flex items-center gap-4 text-earth-100/90">
+                <Phone className="w-5 h-5 text-earth-400 shrink-0" />
+                <p>0120-XXX-XXX <span className="text-sm text-earth-100/60 ml-2">(8:00〜19:00 日曜定休)</span></p>
+              </div>
+              <div className="flex items-center gap-4 text-earth-100/90">
+                <Mail className="w-5 h-5 text-earth-400 shrink-0" />
+                <p>info@example.com</p>
+              </div>
             </div>
           </div>
           <div>
-            <h5 className="text-white font-bold mb-10 uppercase tracking-[0.3em] text-xs">Menu</h5>
-            <ul className="space-y-6 text-sm tracking-widest">
-              <li><a href="#施工事例" className="hover:text-gold transition-colors">施工事例</a></li>
-              <li><a href="#品質" className="hover:text-gold transition-colors">品質へのこだわり</a></li>
-              <li><a href="#お客様の声" className="hover:text-gold transition-colors">お客様の声</a></li>
-              <li><a href="#contact" className="hover:text-gold transition-colors">無料見積り・相談</a></li>
+            <h3 className="text-lg font-bold text-white mb-6 border-b border-earth-600/50 pb-2 inline-block">メニュー</h3>
+            <ul className="space-y-4">
+              <li><a className="hover:text-earth-400 transition-colors" href="#">ホーム</a></li>
+              <li><a className="hover:text-earth-400 transition-colors" href="#services">事業内容・強み</a></li>
+              <li><a className="hover:text-earth-400 transition-colors" href="#施工事例">施工事例・お客様の声</a></li>
+              <li><a className="hover:text-earth-400 transition-colors" href="#about">会社案内・アクセス</a></li>
+              <li><a className="hover:text-earth-400 transition-colors" href="#contact">お問い合わせ・無料お見積り</a></li>
             </ul>
           </div>
           <div>
-            <h5 className="text-white font-bold mb-10 uppercase tracking-[0.3em] text-xs">Contact</h5>
-            <ul className="space-y-6 text-sm tracking-wide">
-              <li className="flex items-start gap-4">
-                <MapPin className="w-5 h-5 text-gold shrink-0" />
-                <span>〒150-0000<br />東京都渋谷区神宮前X-X-X</span>
-              </li>
-              <li className="flex items-center gap-4">
-                <Phone className="w-5 h-5 text-gold shrink-0" />
-                <div>
-                  <span className="block">0120-XXX-XXX</span>
-                  <span className="text-[10px] text-white/30 tracking-widest">平日 8:00〜19:00</span>
-                </div>
-              </li>
-              <li className="flex items-center gap-4">
-                <Mail className="w-5 h-5 text-gold shrink-0" />
-                <span>info@takumi-irodori.jp</span>
-              </li>
-            </ul>
+            <h3 className="text-lg font-bold text-white mb-6 border-b border-earth-600/50 pb-2 inline-block">対応エリア</h3>
+            <p className="text-earth-100/80 leading-relaxed text-sm">〇〇市全域、〇〇市、〇〇町<br /><span className="text-earth-400 mt-2 block">※近隣エリアの方もお気軽にご相談ください。喜んでお伺いします！</span></p>
           </div>
         </div>
-        <div className="border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p className="text-[10px] tracking-[0.2em] uppercase">© 2024 匠の彩 - Takumi no Irodori. All Rights Reserved.</p>
-          <div className="flex gap-12 text-[10px] uppercase tracking-[0.3em]">
-            <a href="#" className="hover:text-white transition-colors">プライバシーポリシー</a>
-            <a href="#" className="hover:text-white transition-colors">特定商取引法に基づく表記</a>
-            <a href="#" className="hover:text-white transition-colors">サイトマップ</a>
+        <div className="pt-8 border-t border-earth-100/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-earth-100/50">
+          <p>© 2026 〇〇工務店 All Rights Reserved.</p>
+          <div className="flex gap-6">
+            <a className="hover:text-earth-100 transition-colors" href="#">プライバシーポリシー</a>
+            <a className="hover:text-earth-100 transition-colors" href="#">サイトマップ</a>
           </div>
         </div>
       </div>
@@ -705,30 +408,67 @@ const Footer = () => {
   );
 };
 
-// --- Main App ---
+const MobileStickyCTA = () => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex bg-white border-t border-earth-400/20 shadow-[0_-4px_20px_rgba(44,30,22,0.05)] pb-safe">
+      <a href="tel:0120-XXX-XXX" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-earth-400/20 active:bg-earth-100 transition-colors">
+        <Phone className="w-5 h-5 text-forest-700 mb-1" />
+        <span className="text-[10px] font-bold text-forest-700">お電話</span>
+      </a>
+      <a href="#" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-earth-400/20 active:bg-[#06C755]/10 transition-colors">
+        <MessageCircle className="w-5 h-5 text-[#06C755] mb-1" />
+        <span className="text-[10px] font-bold text-[#06C755]">LINE相談</span>
+      </a>
+      <a className="flex-1 flex flex-col items-center justify-center py-3 bg-earth-600 active:bg-earth-800 transition-colors" href="#contact">
+        <Mail className="w-5 h-5 text-white mb-1" />
+        <span className="text-[10px] font-bold text-white">WEB見積り</span>
+      </a>
+    </div>
+  );
+};
+
+const CTASection = () => {
+  return (
+    <section className="py-20 bg-earth-100 px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-[#06C755] rounded-[2rem] p-8 md:p-14 text-center text-white shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl -ml-10 -mb-10"></div>
+
+          <div className="relative z-10 flex flex-col items-center">
+            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-8 shadow-inner">
+              <MessageCircle className="w-10 h-10 text-[#06C755]" />
+            </div>
+            <h2 className="text-2xl md:text-4xl font-bold mb-6">しつこい営業なし。「ちょっと聞きたい」大歓迎です</h2>
+            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl font-medium">
+              「外壁のひび割れ、これって直した方がいい？」「見積もりだけもらって検討したい」など、写真でのカンタン見積りにも対応しています。
+            </p>
+            <a href="#" className="inline-flex items-center gap-3 bg-white text-[#06C755] hover:bg-earth-100 px-10 py-5 rounded-full text-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+              <MessageCircle className="w-6 h-6" />
+              LINEで無料相談する
+            </a>
+            <p className="mt-6 text-sm text-white/80 font-medium">※24時間受付中 / 最短5分でお返事します</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default function App() {
-  const { images, loading, error } = useGeneratedImages();
-
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-earth-100 text-earth-900 font-sans selection:bg-earth-200">
       <Navbar />
-      <main>
-        <Hero imageUrl={images?.hero || ''} loading={loading} />
-        <TrustBadges />
-        <ProcessFlow />
-        <BeforeAfter
-          beforeUrl={images?.before || ''}
-          afterUrl={images?.after || ''}
-          loading={loading}
-        />
+      <main className="pt-24 pb-20 lg:pb-0">
+        <Hero />
+        <Reasons />
+        <CTASection />
+        <ComparisonSlider />
         <Testimonials />
-        <LineCTABanner />
-        <ContactForm />
+        <Contact />
       </main>
       <Footer />
-      {/* ★ New: Mobile Sticky CTA — always visible on mobile */}
-      <MobileStickyFooter />
+      <MobileStickyCTA />
     </div>
   );
 }

@@ -2,13 +2,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #0A192F;
-  --color-gold: #C5A059;
-  --color-gold-light: #D4AF37;
-  --color-cream: #F8F5F0;
-  
-  --font-serif: "Noto Serif JP", "Playfair Display", serif;
-  --font-sans: "Noto Sans JP", "Inter", sans-serif;
+  --color-earth-50: #fdfaf7;
+  --color-earth-100: #f9f1e8;
+  --color-earth-200: #f2e1cf;
+  --color-earth-300: #e6c8ab;
+  --color-earth-400: #d6a683;
+  --color-earth-500: #c58661;
+  --color-earth-600: #b56b4a;
+  --color-earth-700: #96543d;
+  --color-earth-800: #7a4636;
+  --color-earth-900: #633b2f;
+  --color-earth-950: #351d18;
+
+  --color-forest-50: #f2f8f5;
+  --color-forest-100: #e1efe9;
+  --color-forest-200: #c6dfd4;
+  --color-forest-300: #9dc6b4;
+  --color-forest-400: #6ea68f;
+  --color-forest-500: #4e8a74;
+  --color-forest-600: #3c6e5c;
+  --color-forest-700: #32584c;
+  --color-forest-800: #2b473f;
+  --color-forest-900: #253c36;
+
+  --font-serif: "Noto Serif JP", serif;
+  --font-sans: "Noto Sans JP", sans-serif;
 }
 
 @layer base {
