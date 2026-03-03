@@ -27,14 +27,18 @@
 
   --font-serif: "Noto Serif JP", serif;
   --font-sans: "Noto Sans JP", sans-serif;
+  --color-navy: #0a192f;
 }
 
 @layer base {
   body {
     @apply bg-white text-navy font-sans antialiased;
   }
-  
-  h1, h2, h3, h4 {
+
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-serif;
   }
 }
@@ -51,6 +55,7 @@
 .text-gold-gradient {
   background: linear-gradient(135deg, #C5A059 0%, #D4AF37 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -60,6 +65,7 @@
     filter: blur(10px);
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     filter: blur(0);
@@ -70,4 +76,3 @@
 .animate-blur-up {
   animation: blur-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
-
