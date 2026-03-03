@@ -36,7 +36,7 @@ const Navbar = () => {
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-white/95 py-5 border-b border-earth-400/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <a className="flex flex-col group" href="#">
-          <span className="text-xl md:text-2xl font-serif font-bold text-earth-900 tracking-wide group-hover:text-earth-600 transition-colors">匠の彩</span>
+          <span className="text-xl md:text-2xl font-serif font-bold text-earth-900 tracking-wide group-hover:text-earth-600 transition-colors">〇〇工務店</span>
           <span className="text-[9px] md:text-xs font-sans font-medium text-earth-600 mt-0.5 leading-none">地域密着・住まいの塗り替え相談窓口</span>
         </a>
 
@@ -53,8 +53,8 @@ const Navbar = () => {
           <div className="flex items-center gap-4 ml-4">
             <div className="flex flex-col items-end">
               <span className="text-[10px] font-bold text-earth-600">お気軽にご相談ください</span>
-              <a href="tel:0120-123-456" className="text-xl font-bold text-forest-700 flex items-center gap-1 hover:text-forest-500 transition-colors">
-                <Phone className="w-5 h-5" />0120-123-456
+              <a href="tel:0120-XXX-XXX" className="text-xl font-bold text-forest-700 flex items-center gap-1 hover:text-forest-500 transition-colors">
+                <Phone className="w-5 h-5" />0120-XXX-XXX
               </a>
             </div>
             <a className="bg-earth-600 hover:bg-earth-800 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition-all" href="#contact">
@@ -94,17 +94,17 @@ const Hero = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full py-12">
         <div className="max-w-3xl">
           <div className="animate-in fade-in slide-in-from-bottom-5 duration-1000">
-            <span className="inline-block px-4 py-2 bg-earth-600/90 text-white text-sm md:text-base font-bold rounded-full mb-6 backdrop-blur-sm border border-white/20">地域密着・横浜市周辺で選ばれ続けて15年</span>
+            <span className="inline-block px-4 py-2 bg-earth-600/90 text-white text-sm md:text-base font-bold rounded-full mb-6 backdrop-blur-sm border border-white/20">地域密着・〇〇市周辺で選ばれ続けて〇〇年</span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-white font-bold leading-tight mb-8 drop-shadow-lg">
-              あなたの「住まい」を、<br />一番近くで守る<br /><span className="text-earth-400">横浜の工務店です。</span>
+              あなたの「住まい」を、<br />一番近くで守る<br /><span className="text-earth-400">〇〇の工務店です。</span>
             </h1>
             <p className="text-lg md:text-xl text-earth-100/90 mb-10 max-w-2xl leading-relaxed font-medium">
               外壁塗装から小さな修理まで、どんな小さな悩みでもご相談ください。 「嘘をつかない適正価格」と「職人直営の丁寧な仕事」で、 顔の見える安心の施工をお届けします。
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <a className="bg-forest-600 hover:bg-forest-700 text-white px-8 py-4 rounded-full text-lg font-bold text-center transition-all shadow-lg hover:shadow-xl hover:-translate-y-1" href="#contact">まずは無料でお見積り</a>
-              <a href="tel:0120-123-456" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 transition-all">
-                <Phone className="w-5 h-5" />0120-123-456 に電話する
+              <a href="tel:0120-XXX-XXX" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 transition-all">
+                <Phone className="w-5 h-5" />0120-XXX-XXX に電話する
               </a>
             </div>
             <div className="flex flex-wrap gap-4 text-sm md:text-base text-white/90 font-medium">
@@ -132,7 +132,7 @@ const Reasons = () => {
     {
       icon: Award,
       title: "地域密着の安心感",
-      desc: "横浜市周辺エリアに特化しているからこその「スピード対応」と「きめ細かいアフターフォロー」が強みです。"
+      desc: "〇〇市周辺エリアに特化しているからこその「スピード対応」と「きめ細かいアフターフォロー」が強みです。"
     },
     {
       icon: PenTool,
@@ -241,17 +241,17 @@ const ComparisonSlider = () => {
 const Testimonials = () => {
   const reviews = [
     {
-      name: "T様 (横浜市在住)",
+      name: "T様 (〇〇市在住)",
       tag: "外壁・屋根塗装",
-      text: "最初は相見積もりをいくつか取ったのですが、匠の彩さんの説明が一番わかりやすく、何より「近所での評判が良い」と知人に聞いて決めました。職人さんの挨拶も気持ちよく、仕事も丁寧で大満足です。"
+      text: "最初は相見積もりをいくつか取ったのですが、〇〇工務店さんの説明が一番わかりやすく、何より「近所での評判が良い」と知人に聞いて決めました。職人さんの挨拶も気持ちよく、仕事も丁寧で大満足です。"
     },
     {
-      name: "S様 (横浜市在住)",
+      name: "S様 (〇〇市在住)",
       tag: "エクステリア改修",
       text: "細かい要望にも嫌な顔ひとつせず対応してくださり感謝しています。仕上がりも想像以上で、毎日家に帰るのが楽しみになりました。次回のリフォームも絶対にこちらにお願いしようと家族で話しています。"
     },
     {
-      name: "M様 (横浜市在住)",
+      name: "M様 (〇〇市在住)",
       tag: "屋根修理",
       text: "他社で「全部やり直す必要がある」と高額な見積もりを出されて不安になっていた所を相談しました。こちらの伊藤社長は「今は部分補修で十分です」と提案してくださり、本当に信頼できる会社だと感じました。"
     }
@@ -307,7 +307,7 @@ const Contact = () => {
                 <Phone className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-xl font-bold text-earth-900 mb-2">お電話でのご相談</h3>
-              <p className="text-earth-600 font-bold text-3xl mb-2">0120-123-456</p>
+              <p className="text-earth-600 font-bold text-3xl mb-2">0120-XXX-XXX</p>
               <p className="text-sm text-earth-800">
                 営業時間：8:00〜19:00<br />
                 定休日：日曜日（※事前予約で対応可）
@@ -320,8 +320,8 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-bold text-earth-900 mb-2">対応エリア</h3>
               <p className="text-sm text-earth-800 leading-relaxed font-medium">
-                横浜市全域、川崎市、鎌倉市<br />
-                <span className="text-earth-600 block mt-2">※地域密着のため、片道1時間圏内を基本としておりますが、近接エリアの方もお気軽にご相談ください。</span>
+                〇〇市全域、〇〇市、〇〇町<br />
+                <span className="text-earth-600 block mt-2">※地域密着のため、片道1時間圏内を基本としておりますが、近隣の方もお気軽にご相談ください。</span>
               </p>
             </div>
           </div>
@@ -364,20 +364,20 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-serif font-bold text-white mb-6 uppercase tracking-widest">匠の彩</h3>
-            <p className="text-earth-100/80 leading-relaxed mb-8 max-w-sm">地域密着で15年の実績。外壁塗装、屋根工事、水回りリフォームなど、住まいのお困りごとは何でもご相談ください。親切丁寧な職人が対応いたします。</p>
+            <h3 className="text-2xl font-serif font-bold text-white mb-6 uppercase tracking-widest">〇〇工務店</h3>
+            <p className="text-earth-100/80 leading-relaxed mb-8 max-w-sm">地域密着で〇〇年の実績。外壁塗装、屋根工事、水回りリフォームなど、住まいのお困りごとは何でもご相談ください。親切丁寧な職人が対応いたします。</p>
             <div className="space-y-4">
               <div className="flex items-start gap-4 text-earth-100/90">
                 <MapPin className="w-5 h-5 text-earth-400 shrink-0 mt-1" />
-                <p>〒220-0012<br />神奈川県横浜市西区みなとみらい1-1-1</p>
+                <p>〒000-0000<br />〇〇県〇〇市〇〇町1-2-3</p>
               </div>
               <div className="flex items-center gap-4 text-earth-100/90">
                 <Phone className="w-5 h-5 text-earth-400 shrink-0" />
-                <p>0120-123-456 <span className="text-sm text-earth-100/60 ml-2">(8:00〜19:00 日曜定休)</span></p>
+                <p>0120-XXX-XXX <span className="text-sm text-earth-100/60 ml-2">(8:00〜19:00 日曜定休)</span></p>
               </div>
               <div className="flex items-center gap-4 text-earth-100/90">
                 <Mail className="w-5 h-5 text-earth-400 shrink-0" />
-                <p>contact@takumi-irodori.com</p>
+                <p>info@example.com</p>
               </div>
             </div>
           </div>
@@ -393,11 +393,11 @@ const Footer = () => {
           </div>
           <div>
             <h3 className="text-lg font-bold text-white mb-6 border-b border-earth-600/50 pb-2 inline-block">対応エリア</h3>
-            <p className="text-earth-100/80 leading-relaxed text-sm">横浜市全域、川崎市、鎌倉市<br /><span className="text-earth-400 mt-2 block">※近接エリアの方もお気軽にご相談ください。喜んでお伺いします！</span></p>
+            <p className="text-earth-100/80 leading-relaxed text-sm">〇〇市全域、〇〇市、〇〇町<br /><span className="text-earth-400 mt-2 block">※近隣エリアの方もお気軽にご相談ください。喜んでお伺いします！</span></p>
           </div>
         </div>
         <div className="pt-8 border-t border-earth-100/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-earth-100/50">
-          <p>© 2026 匠の彩 All Rights Reserved.</p>
+          <p>© 2026 〇〇工務店 All Rights Reserved.</p>
           <div className="flex gap-6">
             <a className="hover:text-earth-100 transition-colors" href="#">プライバシーポリシー</a>
             <a className="hover:text-earth-100 transition-colors" href="#">サイトマップ</a>
@@ -411,7 +411,7 @@ const Footer = () => {
 const MobileStickyCTA = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex bg-white border-t border-earth-400/20 shadow-[0_-4px_20px_rgba(44,30,22,0.05)] pb-safe">
-      <a href="tel:0120-123-456" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-earth-400/20 active:bg-earth-100 transition-colors">
+      <a href="tel:0120-XXX-XXX" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-earth-400/20 active:bg-earth-100 transition-colors">
         <Phone className="w-5 h-5 text-forest-700 mb-1" />
         <span className="text-[10px] font-bold text-forest-700">お電話</span>
       </a>
