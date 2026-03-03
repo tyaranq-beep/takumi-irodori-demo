@@ -307,7 +307,7 @@ const Contact = () => {
                 <Phone className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-xl font-bold text-earth-900 mb-2">お電話でのご相談</h3>
-              <p className="text-earth-600 font-bold text-3xl mb-2">0120-XXX-XXX</p>
+              <p className="text-earth-600 font-bold text-3xl mb-2">0120-123-456</p>
               <p className="text-sm text-earth-800">
                 営業時間：8:00〜19:00<br />
                 定休日：日曜日（※事前予約で対応可）
