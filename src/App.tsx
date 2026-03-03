@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 // --- Constants ---
-const HERO_IMAGE = "/images/before-renovation.png"; // Use local high-quality asset
+const HERO_IMAGE = "/images/after-renovation.png"; // Use high-quality modern house image
 const BEFORE_IMAGE = "/images/before-renovation.png";
 const AFTER_IMAGE = "/images/after-renovation.png";
 
