@@ -8,14 +8,8 @@ import Contact from './pages/Contact';
 import { Phone, MessageCircle, Menu, X, Mail } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-// ===== デモ免責バナー =====
-const DemoBanner = () => (
-  <div className="fixed top-0 w-full z-[100] bg-[#fffbeb] border-b border-[#fcd34d] py-2 px-4 text-center text-[10px] md:text-xs text-[#92400e] leading-relaxed font-medium">
-    デモサイトについて：このサイトはデモ用のサンプルです。デザイン・カラーはお客様のブランドに合わせてカスタマイズします。 掲載中の画像はすべてイメージ素材であり、実際のサービスではお客様ご提供の写真に差し替えます。
-  </div>
-);
-
-const Navbar = () => {
+// ===== カスタムフック＆ヘッダー =====
+const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -40,63 +34,72 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-[45px] md:top-[37px] w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/95 shadow-xl backdrop-blur-xl' : 'bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center h-16 md:h-20">
-        {/* ロゴ */}
-        <Link to="/" className="flex flex-col leading-none">
-          <span className="text-xl md:text-2xl font-serif font-bold text-white tracking-wide">匠の彩</span>
-          <span className="text-[10px] text-slate-400 leading-none mt-0.5">TAKUMI NO IRODORI</span>
-        </Link>
-
-        {/* デスクトップメニュー */}
-        <div className="hidden lg:flex items-center gap-6">
-          {links.map(l => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === '/'}
-              className={({ isActive }) =>
-                `text-sm font-semibold transition-colors hover:text-indigo-400 ${isActive ? 'text-indigo-400 border-b-2 border-indigo-400 pb-0.5' : 'text-slate-300'}`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-          <a href="tel:0120-987-654" className="flex items-center gap-2 text-white hover:text-indigo-400 transition-colors ml-2 text-sm font-bold">
-            <Phone className="w-4 h-4" />0120-987-654
-          </a>
-          <Link to="/contact" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg">
-            無料お見積り
-          </Link>
-        </div>
-
-        {/* モバイルハンバーガー */}
-        <button className="lg:hidden text-white p-2" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+    <header className="fixed top-0 w-full z-[100] flex flex-col">
+      {/* デモ免責バナー */}
+      <div className="w-full bg-slate-900 border-b border-indigo-500/20 py-2 px-2 md:px-4 text-center text-[10px] md:text-xs text-slate-300 leading-relaxed font-sans shadow-md">
+        <span className="text-indigo-400 font-bold mr-1">デモサイトについて：</span>
+        このサイトはデモ用のサンプルです。デザイン・イメージカラーはお客様のブランドに合わせてカスタマイズします。 掲載中の画像はすべてイメージ素材であり、実際のサービスではお客様ご提供の写真に差し替えます。
       </div>
 
-      {/* モバイルメニュー */}
-      {isOpen && (
-        <div className="lg:hidden bg-slate-900/98 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4">
-          {links.map(l => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === '/'}
-              className={({ isActive }) =>
-                `text-base font-bold py-2 border-b border-white/5 ${isActive ? 'text-indigo-400' : 'text-slate-200'}`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-          <Link to="/contact" className="bg-indigo-600 text-white py-4 rounded-xl text-center font-bold mt-2 text-base">
-            無料お見積り・ご相談
+      {/* ナビゲーションバー */}
+      <nav className={`w-full transition-all duration-300 ${scrolled ? 'bg-slate-950/95 shadow-xl backdrop-blur-xl' : 'bg-transparent'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center h-16 md:h-20">
+          {/* ロゴ */}
+          <Link to="/" className="flex flex-col leading-none">
+            <span className="text-xl md:text-2xl font-serif font-bold text-white tracking-wide">匠の彩</span>
+            <span className="text-[10px] text-slate-400 leading-none mt-0.5">TAKUMI NO IRODORI</span>
           </Link>
+
+          {/* デスクトップメニュー */}
+          <div className="hidden lg:flex items-center gap-6">
+            {links.map(l => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.to === '/'}
+                className={({ isActive }) =>
+                  `text-sm font-semibold transition-colors hover:text-indigo-400 ${isActive ? 'text-indigo-400 border-b-2 border-indigo-400 pb-0.5' : 'text-slate-300'}`
+                }
+              >
+                {l.label}
+              </NavLink>
+            ))}
+            <a href="tel:0120-987-654" className="flex items-center gap-2 text-white hover:text-indigo-400 transition-colors ml-2 text-sm font-bold">
+              <Phone className="w-4 h-4" />0120-987-654
+            </a>
+            <Link to="/contact" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg">
+              無料お見積り
+            </Link>
+          </div>
+
+          {/* モバイルハンバーガー */}
+          <button className="lg:hidden text-white p-2" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-      )}
-    </nav>
+
+        {/* モバイルメニュー */}
+        {isOpen && (
+          <div className="lg:hidden bg-slate-900/98 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4">
+            {links.map(l => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.to === '/'}
+                className={({ isActive }) =>
+                  `text-base font-bold py-2 border-b border-white/5 ${isActive ? 'text-indigo-400' : 'text-slate-200'}`
+                }
+              >
+                {l.label}
+              </NavLink>
+            ))}
+            <Link to="/contact" className="bg-indigo-600 text-white py-4 rounded-xl text-center font-bold mt-2 text-base">
+              無料お見積り・ご相談
+            </Link>
+          </div>
+        )}
+      </nav>
+    </header>
   );
 };
 
@@ -171,9 +174,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30">
-        <DemoBanner />
-        <Navbar />
-        <main className="pt-28 md:pt-32 pb-20 lg:pb-0">
+        <Header />
+        <main className="pt-24 md:pt-28 pb-20 lg:pb-0">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/works" element={<Works />} />
