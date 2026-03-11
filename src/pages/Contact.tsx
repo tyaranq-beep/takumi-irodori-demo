@@ -12,7 +12,7 @@ export default function Contact() {
     const faqs = [
         { q: '見積もりだけでも大丈夫ですか？', a: 'はい、断っていただいても一切問題ありません。お気軽にご相談ください。' },
         { q: '現地診断に費用はかかりますか？', a: '完全無料です。お伺いしての診断・見積もりはすべて無料でご提供しています。' },
-        { q: '対応エリアはどこですか？', a: '〇〇市・〇〇市・〇〇町とその周辺です。隣接エリアの方もまずはご相談ください。' },
+        { q: '対応エリアはどこですか？', a: '八潮市・草加市・三郷市とその周辺です。隣接エリアの方もまずはご相談ください。' },
         { q: '写真だけで概算はわかりますか？', a: 'はい、LINE相談であれば写真を送っていただくだけでおおよその費用感をお伝えできます。' },
     ];
 
@@ -44,7 +44,7 @@ export default function Contact() {
                             <Phone className="w-6 h-6 text-amber-400" />
                         </div>
                         <p className="text-white font-bold text-lg mb-1">お電話</p>
-                        <p className="text-amber-400 font-bold text-2xl mb-3">0120-XXX-XXX</p>
+                        <p className="text-amber-400 font-bold text-2xl mb-3">0120-987-654</p>
                         <p className="text-slate-500 text-xs flex items-center gap-1"><Clock className="w-3 h-3" />8:00〜19:00（土日・祝も対応）</p>
                     </a>
 

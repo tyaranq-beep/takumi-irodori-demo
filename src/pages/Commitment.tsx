@@ -39,14 +39,14 @@ export default function Commitment() {
             <section className="py-24 bg-slate-900 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(rgb(251 191 36) 2px, transparent 2px)', backgroundSize: '30px 30px' }} />
                 <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-                    <span className="text-amber-400 font-bold tracking-[0.3em] text-xs uppercase block mb-4">Our Commitment</span>
+                    <span className="text-indigo-400 font-bold tracking-[0.3em] text-xs uppercase block mb-4">Our Commitment</span>
                     <h1 className="text-3xl md:text-5xl font-serif font-bold text-white leading-snug mb-6">なぜ、地元にこだわるのか。</h1>
                     <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
                         大手ではなく地元の工務店を選ぶ理由は値段だけではありません。<br />
                         すべての工程で顔が見える職人が責任を持って関わること——<br />
                         その積み重ねが、15年とおる仕事になります。
                     </p>
-                    <div className="w-16 h-1 bg-amber-500 mx-auto mt-8 rounded-full" />
+                    <div className="w-16 h-1 bg-indigo-600 mx-auto mt-8 rounded-full" />
                 </div>
             </section>
 
@@ -58,17 +58,17 @@ export default function Commitment() {
                                 <div className="flex items-start gap-4">
                                     <span className="text-7xl leading-none font-serif font-bold text-white/5 select-none">{c.num}</span>
                                     <div className="pt-2">
-                                        <span className="text-amber-400 text-xs font-bold tracking-widest uppercase block mb-1">{c.label}</span>
+                                        <span className="text-indigo-400 text-xs font-bold tracking-widest uppercase block mb-1">{c.label}</span>
                                         <h2 className="text-xl md:text-2xl font-serif font-bold text-white leading-snug">{c.title}</h2>
                                     </div>
                                 </div>
                                 <p className="text-slate-400 leading-relaxed text-sm">{c.body}</p>
                             </div>
                             <div className="p-8 bg-slate-900 rounded-3xl border border-white/5 space-y-4">
-                                <p className="text-amber-400 text-xs font-bold tracking-widest uppercase mb-4">このこだわりのポイント</p>
+                                <p className="text-indigo-400 text-xs font-bold tracking-widest uppercase mb-4">このこだわりのポイント</p>
                                 {c.points.map((pt, j) => (
                                     <div key={j} className="flex items-start gap-3">
-                                        <CheckCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                                        <CheckCircle className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
                                         <p className="text-white text-sm font-medium">{pt}</p>
                                     </div>
                                 ))}
@@ -87,12 +87,12 @@ export default function Commitment() {
                     <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mb-12">
                         {[['15年', '最長保証期間'], ['5回', '無料定期点検'], ['0円', '保証範囲内修繕費']].map(([num, label]) => (
                             <div key={label} className="p-5 bg-slate-950 rounded-2xl border border-white/5">
-                                <p className="text-amber-400 text-2xl font-serif font-bold">{num}</p>
+                                <p className="text-indigo-400 text-2xl font-serif font-bold">{num}</p>
                                 <p className="text-slate-400 text-xs mt-1">{label}</p>
                             </div>
                         ))}
                     </div>
-                    <Link to="/contact" className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 px-8 py-4 rounded-full text-base font-bold transition-all shadow-lg hover:-translate-y-1">
+                    <Link to="/contact" className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full text-base font-bold transition-all shadow-lg hover:-translate-y-1">
                         <MessageCircle className="w-5 h-5" />無料でご相談・お見積りを依頼する
                     </Link>
                 </div>

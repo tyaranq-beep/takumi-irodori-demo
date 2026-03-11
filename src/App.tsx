@@ -50,16 +50,16 @@ const Navbar = () => {
               to={l.to}
               end={l.to === '/'}
               className={({ isActive }) =>
-                `text-sm font-semibold transition-colors hover:text-amber-400 ${isActive ? 'text-amber-400 border-b-2 border-amber-400 pb-0.5' : 'text-slate-300'}`
+                `text-sm font-semibold transition-colors hover:text-indigo-400 ${isActive ? 'text-indigo-400 border-b-2 border-indigo-400 pb-0.5' : 'text-slate-300'}`
               }
             >
               {l.label}
             </NavLink>
           ))}
-          <a href="tel:0120-XXX-XXX" className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors ml-2 text-sm font-bold">
-            <Phone className="w-4 h-4" />0120-XXX-XXX
+          <a href="tel:0120-987-654" className="flex items-center gap-2 text-white hover:text-indigo-400 transition-colors ml-2 text-sm font-bold">
+            <Phone className="w-4 h-4" />0120-987-654
           </a>
-          <Link to="/contact" className="bg-amber-500 hover:bg-amber-600 text-slate-950 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg">
+          <Link to="/contact" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg">
             無料お見積り
           </Link>
         </div>
@@ -79,13 +79,13 @@ const Navbar = () => {
               to={l.to}
               end={l.to === '/'}
               className={({ isActive }) =>
-                `text-base font-bold py-2 border-b border-white/5 ${isActive ? 'text-amber-400' : 'text-slate-200'}`
+                `text-base font-bold py-2 border-b border-white/5 ${isActive ? 'text-indigo-400' : 'text-slate-200'}`
               }
             >
               {l.label}
             </NavLink>
           ))}
-          <Link to="/contact" className="bg-amber-500 text-slate-950 py-4 rounded-xl text-center font-bold mt-2 text-base">
+          <Link to="/contact" className="bg-indigo-600 text-white py-4 rounded-xl text-center font-bold mt-2 text-base">
             無料お見積り・ご相談
           </Link>
         </div>
@@ -96,7 +96,7 @@ const Navbar = () => {
 
 // ===== フッター =====
 const Footer = () => (
-  <footer className="bg-slate-950 border-t-4 border-amber-500 pt-16 pb-28 lg:pb-12">
+  <footer className="bg-slate-950 border-t-4 border-indigo-600 pt-16 pb-28 lg:pb-12">
     <div className="max-w-7xl mx-auto px-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
         <div>
@@ -114,18 +114,18 @@ const Footer = () => (
               ['/company', '会社案内'],
               ['/contact', 'お問い合わせ・無料見積り'],
             ].map(([to, label]) => (
-              <li key={to}><Link to={to} className="text-slate-400 hover:text-amber-400 transition-colors">{label}</Link></li>
+              <li key={to}><Link to={to} className="text-slate-400 hover:text-indigo-400 transition-colors">{label}</Link></li>
             ))}
           </ul>
         </div>
         <div>
           <p className="text-white font-bold mb-5 text-sm tracking-widest uppercase">お問い合わせ</p>
           <ul className="space-y-4 text-sm text-slate-400">
-            <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-amber-400 shrink-0" />0120-XXX-XXX（8:00〜19:00）</li>
-            <li className="flex items-center gap-3"><Mail className="w-4 h-4 text-amber-400 shrink-0" />info@takumi-irodori.jp</li>
+            <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-indigo-400 shrink-0" />0120-987-654（8:00〜19:00）</li>
+            <li className="flex items-center gap-3"><Mail className="w-4 h-4 text-indigo-400 shrink-0" />info@takumi-irodori.jp</li>
             <li className="flex items-start gap-3">
               <span className="text-amber-400 font-bold shrink-0 text-xs mt-0.5">📍</span>
-              <span>〒000-0000<br />〇〇県〇〇市〇〇町1-2-3<br /><span className="text-slate-500">施工エリア：〇〇市・〇〇市・〇〇町とその周辺</span></span>
+              <span>〒340-0816<br />埼玉県八潮市中央1-2-3<br /><span className="text-slate-500">施工エリア：八潮市・草加市・三郷市とその周辺</span></span>
             </li>
           </ul>
         </div>
@@ -133,6 +133,7 @@ const Footer = () => (
       <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600">
         <p>© 2026 匠の彩 All Rights Reserved.</p>
         <div className="flex gap-6">
+          <a href="https://ywp-digital.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-400 transition-colors">制作：YWP Digital</a>
           <a href="#" className="hover:text-slate-400 transition-colors">プライバシーポリシー</a>
           <a href="#" className="hover:text-slate-400 transition-colors">サイトマップ</a>
         </div>
@@ -144,7 +145,7 @@ const Footer = () => (
 // ===== スマホ固定CTA =====
 const MobileStickyCTA = () => (
   <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex bg-slate-900 border-t border-white/10 shadow-2xl">
-    <a href="tel:0120-XXX-XXX" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-white/10 active:bg-slate-800 transition-colors">
+    <a href="tel:0120-987-654" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-white/10 active:bg-slate-800 transition-colors">
       <Phone className="w-5 h-5 text-white mb-0.5" />
       <span className="text-[10px] font-bold text-white">お電話</span>
     </a>
@@ -152,7 +153,7 @@ const MobileStickyCTA = () => (
       <MessageCircle className="w-5 h-5 text-[#06C755] mb-0.5" />
       <span className="text-[10px] font-bold text-[#06C755]">LINE相談</span>
     </a>
-    <Link to="/contact" className="flex-1 flex flex-col items-center justify-center py-3 bg-amber-500 active:bg-amber-600 transition-colors">
+    <Link to="/contact" className="flex-1 flex flex-col items-center justify-center py-3 bg-indigo-600 active:bg-indigo-700 transition-colors">
       <Mail className="w-5 h-5 text-slate-950 mb-0.5" />
       <span className="text-[10px] font-bold text-slate-950">無料見積り</span>
     </Link>
@@ -163,7 +164,7 @@ const MobileStickyCTA = () => (
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-amber-500/30">
+      <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30">
         <Navbar />
         <main className="pt-16 md:pt-20 pb-20 lg:pb-0">
           <Routes>
