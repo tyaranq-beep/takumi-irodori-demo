@@ -8,7 +8,15 @@ import Contact from './pages/Contact';
 import { Phone, MessageCircle, Menu, X, Mail } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-// ===== 共有ナビゲーション =====
+// ===== デモ免責バナー =====
+const DemoBanner = () => (
+  <div style={{ background: '#fffbeb', borderBottom: '1px solid #fcd34d', padding: '10px 16px', textAlign: 'center', fontSize: '12px', color: '#92400e', lineHeight: '1.6' }}>
+    <strong>📋 デモサイトについて：</strong>
+    このサイトはデモ用のサンプルです。デザイン・イメージカラーはお客様のブランドに合わせてカスタマイズします。
+    掲載中の画像はすべてイメージ素材であり、実際のサービスではお客様ご提供の写真に差し替えます。
+  </div>
+);
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -165,6 +173,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30">
+        <DemoBanner />
         <Navbar />
         <main className="pt-16 md:pt-20 pb-20 lg:pb-0">
           <Routes>
