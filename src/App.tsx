@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 
 // ===== デモ免責バナー =====
 const DemoBanner = () => (
-  <div className="relative z-[100] w-full bg-[#fffbeb] border-b border-[#fcd34d] py-2.5 px-4 text-center text-xs md:text-sm text-[#92400e] leading-relaxed font-medium">
+  <div className="w-full bg-[#fffbeb] border-b border-[#fcd34d] py-2 px-4 text-center text-[10px] md:text-xs text-[#92400e] leading-relaxed font-medium">
     デモサイトについて：このサイトはデモ用のサンプルです。デザイン・カラーはお客様のブランドに合わせてカスタマイズします。 掲載中の画像はすべてイメージ素材であり、実際のサービスではお客様ご提供の写真に差し替えます。
   </div>
 );
@@ -40,7 +40,8 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/95 shadow-xl backdrop-blur-xl' : 'bg-transparent pt-16 md:pt-10'}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/95 shadow-xl backdrop-blur-xl' : 'bg-transparent'}`}>
+      <DemoBanner />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center h-16 md:h-20">
         {/* ロゴ */}
         <Link to="/" className="flex flex-col leading-none">
@@ -171,7 +172,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30">
-        <DemoBanner />
         <Navbar />
         <main className="pt-16 md:pt-20 pb-20 lg:pb-0">
           <Routes>
