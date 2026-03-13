@@ -1,3 +1,4 @@
+// Build Version: 2026.03.14.0305 - Final Anonymization Clean
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, MessageCircle, Award, ShieldCheck, PenTool, Star, Quote, CircleCheck, ArrowRight, Hammer } from 'lucide-react';
