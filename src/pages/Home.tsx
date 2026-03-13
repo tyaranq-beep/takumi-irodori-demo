@@ -38,16 +38,16 @@ const CTABanner = ({ href = '/contact', text = 'まず無料で診断しても�
 // ===== ホームページ =====
 export default function Home() {
     const reasons = [
-        { icon: Award, title: '地域密着の安心感', desc: '八潮市周辺エリアに特化。「スピード対応」と「きめ細かいアフターフォロー」が私たちの強みです。' },
+        { icon: Award, title: '地域密着の安心感', desc: '〇〇市周辺エリアに特化。「スピード対応」と「きめ細かいアフターフォロー」が私たちの強みです。' },
         { icon: PenTool, title: '職人直営の適正価格', desc: '営業マンを挟まないから中間マージンなし。高品質な施工を適正な価格で直接お届けします。' },
         { icon: ShieldCheck, title: '有資格者による確かな技術', desc: '一級塗装技能士が在籍。手抜きなしの長持ちする施工をお約束します。' },
         { icon: MessageCircle, title: '強引な営業は一切なし', desc: 'お客様のペースを第一に。不要な工事の押し売りや、しつこい電話営業は一切いたしません。' },
     ];
 
     const reviews = [
-        { name: 'T様（八潮市在住）', tag: '外壁・屋根塗装', text: '最初は相見積もりをいくつか取ったのですが、説明が一番わかりやすく、近所での評判が良いと聞いて決めました。職人さんの挨拶も気持ちよく、仕事も丁寧で大満足です。' },
-        { name: 'S様（草加市在住）', tag: 'エクステリア改修', text: '細かい要望にも嫌な顔ひとつせず対応してくださり感謝しています。仕上がりも想像以上で、毎日家に帰るのが楽しみになりました。次回も絶対にこちらにお願いします。' },
-        { name: 'M様（三郷市在住）', tag: '屋根修理', text: '他社で「全部やり直す必要がある」と高額な見積もりを出されて不安でした。こちらは「今は部分補修で十分です」と提案してくださり、本当に信頼できる会社だと感じました。' },
+        { name: 'T様（〇〇市在住）', tag: '外壁・屋根塗装', text: '最初は相見積もりをいくつか取ったのですが、説明が一番わかりやすく、近所での評判が良いと聞いて決めました。職人さんの挨拶も気持ちよく、仕事も丁寧で大満足です。' },
+        { name: 'S様（〇〇市在住）', tag: 'エクステリア改修', text: '細かい要望にも嫌な顔ひとつせず対応してくださり感謝しています。仕上がりも想像以上で、毎日家に帰るのが楽しみになりました。次回も絶対にこちらにお願いします。' },
+        { name: 'M様（〇〇市在住）', tag: '屋根修理', text: '他社で「全部やり直す必要がある」と高額な見積もりを出されて不安でした。こちらは「今は部分補修で十分です」と提案してくださり、本当に信頼できる会社だと感じました。' },
     ];
 
     return (
@@ -74,7 +74,7 @@ export default function Home() {
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600/90 text-white text-sm font-bold rounded-full mb-8 block w-fit"
                                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } } }}
                             >
-                                地域密着・八潮市周辺で選ばれ続けて15年
+                                地域密着・〇〇市周辺で選ばれ続けて15年
                             </motion.span>,
                             <motion.h1
                                 key="h1"
@@ -103,12 +103,12 @@ export default function Home() {
                                     </Link>
                                 </motion.div>
                                 <motion.a
-                                    href="tel:0120-987-654"
+                                    href="tel:0120-000-000"
                                     className="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 transition-all"
                                     whileHover={{ scale: 1.04, borderColor: 'rgba(255,255,255,0.4)' }}
                                     whileTap={{ scale: 0.97 }}
                                 >
-                                    <Phone className="w-5 h-5" />0120-987-654
+                                    <Phone className="w-5 h-5" />0120-000-000
                                 </motion.a>
                             </motion.div>,
                             <motion.div

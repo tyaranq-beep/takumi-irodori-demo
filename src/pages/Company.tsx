@@ -12,12 +12,12 @@ const companyInfo = [
     ['会社名', '株式会社 匠の彩'],
     ['代表取締役', '田中 匠'],
     ['設立', '2009年（創業15年）'],
-    ['所在地', '〒340-0816 埼玉県八潮市中央1-2-3'],
-    ['電話番号', '0120-987-654'],
-    ['メール', 'info@takumi-irodori.jp'],
+    ['所在地', '〒000-0000 〇〇県〇〇市〇〇町1-2-3'],
+    ['電話番号', '0120-000-000'],
+    ['メール', 'info@example.com'],
     ['営業時間', '8:00〜19:00（土日・祝日対応可）'],
     ['定休日', '日曜日（事前予約で対応可）'],
-    ['施工エリア', '八潮市・草加市・三郷市とその周辺'],
+    ['施工エリア', '〇〇市・〇〇市・〇〇市とその周辺'],
     ['主な事業', '外壁塗装 / 屋根工事 / 水回りリフォーム / 内装リノベーション'],
     ['資格', '一級塗装技能士・一級外壁仕上げ施工技能士 他'],
 ];
@@ -34,7 +34,7 @@ export default function Company() {
                         地元で、家族と暮らし続けてきた職人が、<br />あなたの家を直します。
                     </h1>
                     <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-                        私たちは八潮市で創業して15年。これまで1,200件以上のご家族と歩んできました。<br />
+                        私たちは〇〇市で創業して15年。これまで1,200件以上のご家族と歩んできました。<br />
                         お客様が満足するまで正直に向き合うこと——それだけを守り続けています。
                     </p>
                     <div className="w-16 h-1 bg-amber-500 mx-auto mt-8 rounded-full" />
@@ -110,9 +110,9 @@ export default function Company() {
                 <div className="max-w-4xl mx-auto px-6 text-center">
                     <h2 className="text-2xl font-serif text-white font-bold mb-6">アクセス・お問い合わせ</h2>
                     <div className="space-y-3 text-slate-300 text-sm mb-8">
-                        <p className="flex items-center justify-center gap-2"><MapPin className="w-4 h-4 text-amber-400" />〒340-0816 埼玉県八潮市中央1-2-3</p>
-                        <p className="flex items-center justify-center gap-2"><Phone className="w-4 h-4 text-amber-400" /><a href="tel:0120-987-654" className="hover:text-amber-400 transition-colors">0120-987-654</a></p>
-                        <p className="flex items-center justify-center gap-2"><Mail className="w-4 h-4 text-amber-400" />info@takumi-irodori.jp</p>
+                        <p className="flex items-center justify-center gap-2"><MapPin className="w-4 h-4 text-amber-400" />〒000-0000 〇〇県〇〇市〇〇町1-2-3</p>
+                        <p className="flex items-center justify-center gap-2"><Phone className="w-4 h-4 text-amber-400" /><a href="tel:0120-000-000" className="hover:text-amber-400 transition-colors">0120-000-000</a></p>
+                        <p className="flex items-center justify-center gap-2"><Mail className="w-4 h-4 text-amber-400" />info@example.com</p>
                     </div>
                     <div className="w-full h-48 bg-slate-800 rounded-3xl flex items-center justify-center text-slate-500 text-sm mb-8 border border-white/5">
                         ✦ Googleマップを埋め込み予定 ✦

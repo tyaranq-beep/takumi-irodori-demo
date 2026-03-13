@@ -64,8 +64,8 @@ const Header = () => {
                 {l.label}
               </NavLink>
             ))}
-            <a href="tel:0120-987-654" className="flex items-center gap-2 text-white hover:text-indigo-400 transition-colors ml-2 text-sm font-bold">
-              <Phone className="w-4 h-4" />0120-987-654
+            <a href="tel:0120-000-000" className="flex items-center gap-2 text-white hover:text-indigo-400 transition-colors ml-2 text-sm font-bold">
+              <Phone className="w-4 h-4" />0120-000-000
             </a>
             <Link to="/contact" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg">
               無料お見積り
@@ -130,11 +130,11 @@ const Footer = () => (
         <div>
           <p className="text-white font-bold mb-5 text-sm tracking-widest uppercase">お問い合わせ</p>
           <ul className="space-y-4 text-sm text-slate-400">
-            <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-indigo-400 shrink-0" />0120-987-654（8:00〜19:00）</li>
-            <li className="flex items-center gap-3"><Mail className="w-4 h-4 text-indigo-400 shrink-0" />info@takumi-irodori.jp</li>
+            <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-indigo-400 shrink-0" />0120-000-000（8:00〜19:00）</li>
+            <li className="flex items-center gap-3"><Mail className="w-4 h-4 text-indigo-400 shrink-0" />info@example.com</li>
             <li className="flex items-start gap-3">
               <span className="text-amber-400 font-bold shrink-0 text-xs mt-0.5">📍</span>
-              <span>〒340-0816<br />埼玉県八潮市中央1-2-3<br /><span className="text-slate-500">施工エリア：八潮市・草加市・三郷市とその周辺</span></span>
+              <span>〒000-0000<br />〇〇県〇〇市〇〇町1-2-3<br /><span className="text-slate-500">施工エリア：〇〇市・〇〇市・〇〇市とその周辺</span></span>
             </li>
           </ul>
         </div>
@@ -154,7 +154,7 @@ const Footer = () => (
 // ===== スマホ固定CTA =====
 const MobileStickyCTA = () => (
   <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex bg-slate-900 border-t border-white/10 shadow-2xl">
-    <a href="tel:0120-987-654" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-white/10 active:bg-slate-800 transition-colors">
+    <a href="tel:0120-000-000" className="flex-1 flex flex-col items-center justify-center py-3 border-r border-white/10 active:bg-slate-800 transition-colors">
       <Phone className="w-5 h-5 text-white mb-0.5" />
       <span className="text-[10px] font-bold text-white">お電話</span>
     </a>
