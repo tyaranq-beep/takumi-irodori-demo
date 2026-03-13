@@ -39,7 +39,7 @@ export default function Contact() {
             <section className="py-16 bg-slate-950">
                 <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* 電話 */}
-                    <a href="tel:0120-XXX-XXX" className="flex flex-col items-center text-center p-8 bg-slate-900 rounded-3xl border border-white/5 hover:border-amber-500/30 transition-all group">
+                    <a href="tel:0120-000-000" className="flex flex-col items-center text-center p-8 bg-slate-900 rounded-3xl border border-white/5 hover:border-amber-500/30 transition-all group">
                         <div className="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center mb-5 group-hover:bg-amber-500/20 transition-colors">
                             <Phone className="w-6 h-6 text-amber-400" />
                         </div>
